@@ -1,0 +1,9 @@
+<div class="year-filter">
+  <button 
+    *ngFor="let year of years"
+    class="year-btn" 
+    [class.active]="selectedYear === year"
+    (click)="onYearChange(year)">
+    {{ year }}
+  </button>
+</div>
