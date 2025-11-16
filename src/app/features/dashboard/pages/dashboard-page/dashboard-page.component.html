@@ -1,0 +1,41 @@
+<div class="dashboard-container">
+  <!-- Sales Chart -->
+  <div class="chart-section">
+    <app-sales-chart></app-sales-chart>
+  </div>
+
+  <!-- KPI Widgets with Timeframe -->
+  <div class="kpi-widgets-row">
+    <!-- Sales Widget -->
+    <div class="kpi-widget-item">
+      <app-sales-widget 
+        [selectedTimeframe]="globalTimeframe"
+       >
+      </app-sales-widget>
+    </div>
+
+    <!-- Statistics Widget -->
+    <div class="kpi-widget-item">
+      <app-statistics-widget 
+        [selectedTimeframe]="globalTimeframe"
+       >
+      </app-statistics-widget>
+    </div>
+
+    <!-- Break-Even Widget -->
+    <div class="kpi-widget-item">
+      <app-break-even-widget 
+        [selectedTimeframe]="globalTimeframe"
+       >
+      </app-break-even-widget>
+    </div>
+
+    <!-- Ours Widget -->
+    <div class="kpi-widget-item">
+      <app-ours-widget 
+        [selectedTimeframe]="globalTimeframe"
+       >
+      </app-ours-widget>
+    </div>
+  </div>
+</div>

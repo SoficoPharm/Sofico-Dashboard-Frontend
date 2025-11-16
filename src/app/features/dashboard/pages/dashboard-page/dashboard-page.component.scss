@@ -1,0 +1,36 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0; // Remove extra padding if layout already has padding
+
+  // Chart Section (Full Width)
+  .chart-section {
+    width: 100%;
+  }
+
+  // KPI Widgets (4 Cards in a Row)
+  .kpi-widgets-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+
+    .kpi-widget-item {
+      min-width: 0; // Prevent overflow
+      min-height: 500px; // Consistent height for all cards
+    }
+  }
+
+  // Responsive Design
+  @media (max-width: 1600px) {
+    .kpi-widgets-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .kpi-widgets-row {
+      grid-template-columns: 1fr;
+    }
+  }
+}

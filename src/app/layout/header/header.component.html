@@ -1,0 +1,30 @@
+<header class="app-header">
+  <div class="header-content">
+    <!-- Logo -->
+    <div class="header-logo">
+      <img src="\logoSoficoPharam.png" alt="Sofico Pharm" class="logo-img">
+      <!-- <span class="logo-text">SOFICO</span> -->
+    </div>
+
+    <!-- Right Actions -->
+    <div class="header-actions">
+      <!-- User Info -->
+      <div class="user-info" *ngIf="currentUser">
+        <img src="\profile.jpg" alt="User" class="user-avatar">
+        <div class="user-details">
+          <span class="user-name">{{ currentUser.name }}</span>
+          <div class="user-dropdown">
+            <button class="dropdown-toggle">▼</button>
+         <a (click)="onLogout()" class="LogOut">Logout</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Language -->
+      <button class="header-btn language-btn" (click)="onLanguageChange()">
+         <img src="\us.png" alt="User" class="language">
+        <span>EN</span>
+      </button>
+    </div>
+  </div>
+</header>

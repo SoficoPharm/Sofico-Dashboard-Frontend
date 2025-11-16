@@ -1,0 +1,65 @@
+<aside class="app-sidebar" [class.collapsed]="isCollapsed">
+
+  <!-- Sidebar Header -->
+  <div class="sidebar-header">
+    <div class="logo">
+      <img src="\white.svg" alt="Logo" class="logo-icon">
+      <span class="logo-text" *ngIf="!isCollapsed">SOFICO</span>
+    </div>
+    <button class="toggle-btn" (click)="toggleSidebar()">☰</button>
+  </div>
+
+<!-- User Profile -->
+<div *ngIf="currentUser && !isCollapsed">
+  <div class="user-profile">
+    <img src="\profile.jpg" alt="User" class="profile-avatar">
+    <div class="profile-info">
+      <span class="profile-name">{{ currentUser.name }}</span>
+      <span class="profile-email">{{ currentUser.email }}</span>
+    </div>
+  </div>
+</div>
+
+  <!-- Menu -->
+  <div class="sidebar-menu">
+    <span class="menu-title" *ngIf="!isCollapsed">SOFICO PHARM</span>
+    <nav class="menu-list">
+      <ng-container *ngFor="let item of menuItems">
+
+        <!-- Parent without children -->
+        <a *ngIf="!item.children"
+           [routerLink]="item.route"
+           routerLinkActive="active"
+           class="menu-item"
+           [title]="isCollapsed ? item.label : ''">
+          <span class="menu-icon">{{ item.icon }}</span>
+          <span class="menu-label" *ngIf="!isCollapsed">{{ item.label }}</span>
+          <span class="menu-badge" *ngIf="item.badge && !isCollapsed">{{ item.badge }}</span>
+        </a>
+
+        <!-- Parent with children -->
+        <div *ngIf="item.children" class="menu-group">
+          <a class="menu-item parent"
+             (click)="toggleMenu(item.label)"
+             [class.active]="activeMenu === item.label"
+             [title]="isCollapsed ? item.label : ''">
+            <span class="menu-icon">{{ item.icon }}</span>
+            <span class="menu-label" *ngIf="!isCollapsed">{{ item.label }}</span>
+            <span class="expand-icon" *ngIf="!isCollapsed" [class.rotated]="activeMenu === item.label">▼</span>
+          </a>
+
+          <!-- Submenu -->
+          <div class="submenu" *ngIf="!isCollapsed && activeMenu === item.label">
+            <a *ngFor="let child of item.children"
+               [routerLink]="child.route"
+               routerLinkActive="active"
+               class="submenu-item">
+              {{ child.label }}
+            </a>
+          </div>
+        </div>
+
+      </ng-container>
+    </nav>
+  </div>
+</aside>

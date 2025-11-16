@@ -1,0 +1,108 @@
+<div class="break-even-widget">
+  <!-- Header with Timeframe -->
+  <div class="widget-header">
+    <div class="widget-title">
+      <span class="icon">📉</span>
+      <h3>Break Even Point</h3>
+    </div>
+    
+    <!-- Timeframe Selector -->
+    <div class="timeframe-selector">
+      <button 
+        *ngFor="let tf of timeframes"
+        class="timeframe-btn"
+        [class.active]="selectedTimeframe === tf"
+        (click)="onTimeframeChange(tf)">
+        {{ tf }}
+      </button>
+    </div>
+  </div>
+  <!-- Percentage Display -->
+  <div class="percentage-display">
+    <div class="percentage-value">{{ data.percentage }}%</div>
+    <div class="percentage-label">Maximum Rate</div>
+  </div>
+
+  <!-- Progress Indicators -->
+  <div class="progress-indicators">
+    <div class="indicator success">
+      <span class="indicator-icon">✓</span>
+      <span class="indicator-label">0%</span>
+    </div>
+    <div class="indicator success">
+      <span class="indicator-icon">✓</span>
+      <span class="indicator-label">0%</span>
+    </div>
+    <div class="indicator success">
+      <span class="indicator-icon">✓</span>
+      <span class="indicator-label">0%</span>
+    </div>
+  </div>
+
+  <!-- Summary Grid -->
+  <div class="summary-grid">
+    <div class="summary-item">
+      <span class="summary-label">Target</span>
+      <span class="summary-value">{{ formatNumber(data.target) }}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Sales</span>
+      <span class="summary-value">{{ formatNumber(data.sales) }}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Collect</span>
+      <span class="summary-value negative">{{ formatNumber(data.collect) }}</span>
+    </div>
+  </div>
+
+  <!-- Expenses Details -->
+  <div class="expenses-section">
+    <h4 class="expenses-title">Expenses Details</h4>
+    
+    <div class="expenses-grid">
+      <div class="expense-item">
+        <span class="expense-label">Salaries</span>
+        <span class="expense-value">{{ formatNumber(data.expenses.salaries) }}</span>
+        <span class="expense-percentage">0%</span>
+      </div>
+
+      <div class="expense-item">
+        <span class="expense-label">Commission</span>
+        <span class="expense-value">{{ formatNumber(data.expenses.commission) }}</span>
+        <span class="expense-percentage">0%</span>
+      </div>
+
+      <div class="expense-item">
+        <span class="expense-label">Rent</span>
+        <span class="expense-value">{{ formatNumber(data.expenses.rent) }}</span>
+        <span class="expense-percentage">0%</span>
+      </div>
+
+      <div class="expense-item">
+        <span class="expense-label">Bank</span>
+        <span class="expense-value">{{ formatNumber(data.expenses.bank) }}</span>
+        <span class="expense-percentage">0%</span>
+      </div>
+
+      <div class="expense-item">
+        <span class="expense-label">Cars</span>
+        <span class="expense-value">{{ formatNumber(data.expenses.cars) }}</span>
+        <span class="expense-percentage">0%</span>
+      </div>
+
+      <div class="expense-item">
+        <span class="expense-label">Others</span>
+        <span class="expense-value">{{ formatNumber(data.expenses.others) }}</span>
+        <span class="expense-percentage">0%</span>
+      </div>
+    </div>
+
+    <div class="expenses-total">
+      <span class="total-label">Total</span>
+      <span class="total-value">{{ formatNumber(data.expenses.total) }}</span>
+    </div>
+  </div>
+
+  <!-- Details Link -->
+  <a href="#" class="details-link">Details</a>
+</div>

@@ -1,0 +1,121 @@
+<div class="statistics-widget">
+    <!-- Header with Timeframe Buttons -->
+  <div class="widget-header">
+    <div class="widget-title">
+      <span class="icon">📊</span>
+      <h3>Statistics</h3>
+    </div>
+    
+    <!-- Timeframe Selector -->
+    <div class="timeframe-selector">
+      <button 
+        *ngFor="let tf of timeframes"
+        class="timeframe-btn"
+        [class.active]="selectedTimeframe === tf"
+        (click)="onTimeframeChange(tf)">
+        {{ tf }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Progress Bars -->
+  <div class="progress-section">
+    <div class="progress-bar">
+      <div class="progress-fill sd-fill" [style.width.%]="data.sdPercentage"></div>
+      <div class="progress-fill tenders-fill" [style.width.%]="data.tendersPercentage"></div>
+      <div class="progress-fill order-fill" [style.width.%]="data.orderPercentage"></div>
+    </div>
+  </div>
+
+  <!-- Statistics Grid -->
+  <div class="stats-grid">
+    <!-- S.D -->
+    <div class="stat-item">
+      <span class="stat-label">S.D</span>
+      <div class="stat-value-group">
+        <span class="stat-value">{{ formatNumber(data.sd) }}</span>
+        <span class="stat-percentage">{{ data.sdPercentage }}%</span>
+      </div>
+    </div>
+
+    <!-- Tenders -->
+    <div class="stat-item">
+      <span class="stat-label">Tenders</span>
+      <div class="stat-value-group">
+        <span class="stat-value">{{ formatNumber(data.tenders) }}</span>
+        <span class="stat-percentage">{{ data.tendersPercentage }}%</span>
+      </div>
+    </div>
+
+    <!-- Order -->
+    <div class="stat-item">
+      <span class="stat-label">Order</span>
+      <div class="stat-value-group">
+        <span class="stat-value">{{ formatNumber(data.order) }}</span>
+        <span class="stat-percentage">{{ data.orderPercentage }}%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Open Orders Section -->
+  <div class="open-section">
+    <div class="open-bar gray-bar"></div>
+    <div class="open-bar green-bar"></div>
+  </div>
+
+  <div class="stats-grid">
+    <!-- Open S.D -->
+    <div class="stat-item">
+      <span class="stat-label">Open S.D</span>
+      <div class="stat-value-group">
+        <span class="stat-value">{{ formatNumber(data.openSD) }}</span>
+        <span class="stat-percentage">0%</span>
+      </div>
+    </div>
+
+    <!-- Open Tender -->
+    <div class="stat-item">
+      <span class="stat-label">Open Tender</span>
+      <div class="stat-value-group">
+        <span class="stat-value">{{ formatNumber(data.openTender) }}</span>
+        <span class="stat-percentage">77.33%</span>
+      </div>
+    </div>
+
+    <!-- Open Order -->
+    <div class="stat-item">
+      <span class="stat-label">Open Order</span>
+      <div class="stat-value-group">
+        <span class="stat-value">{{ formatNumber(data.openOrder) }}</span>
+        <span class="stat-percentage">22.67%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AM/PM Section -->
+  <div class="am-pm-section">
+    <div class="am-pm-bar">
+      <div class="am-fill" [style.width.%]="data.amPercentage"></div>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <!-- AM -->
+    <div class="stat-item">
+      <span class="stat-label">AM</span>
+      <div class="stat-value-group">
+        <span class="stat-value">{{ formatNumber(data.am) }}</span>
+        <span class="stat-percentage">{{ data.amPercentage }}%</span>
+      </div>
+    </div>
+
+    <!-- PM -->
+    <div class="stat-item">
+      <span class="stat-label">PM</span>
+      <div class="stat-value-group">
+        <span class="stat-value">{{ formatNumber(data.pm) }}</span>
+        <span class="stat-percentage">{{ data.pmPercentage }}%</span>
+      </div>
+    </div>
+  </div>
+</div>
