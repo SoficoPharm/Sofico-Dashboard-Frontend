@@ -7,6 +7,8 @@
 .layout-container {
   display: flex;
   flex: 1;
+  margin-left: 70px; // عرض الـ Sidebar المُصغر
+  transition: margin-left 0.3s ease;
 }
 
 .main-content {

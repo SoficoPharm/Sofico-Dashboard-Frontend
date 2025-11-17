@@ -9,14 +9,14 @@ export const routes: Routes = [
   },
   {
     path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
     loadComponent: () =>
       import('./layout/layout.component').then(m => m.LayoutComponent),
     children: [
-      {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full'
-      },
       {
         path: 'dashboard',
         loadComponent: () =>
