@@ -8,22 +8,14 @@ import { CommonModule } from '@angular/common';
   templateUrl: './info-box.component.html',
   styleUrls: ['./info-box.component.scss']
 })
-export class InfoBoxComponent implements OnInit, OnDestroy {
+export class InfoBoxComponent implements OnInit {
   version = '20.3.10';
   currentDay = '';
   currentTime = '';
   lastSync = '';
-  private intervalId: any;
 
   ngOnInit(): void {
-    this.updateDateTime();
-    this.intervalId = setInterval(() => this.updateDateTime(), 1000);
-  }
-
-  ngOnDestroy(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
+    this.updateDateTime();   // تشغيل مرة واحدة فقط
   }
 
   updateDateTime(): void {
