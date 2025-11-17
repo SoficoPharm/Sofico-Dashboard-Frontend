@@ -55,8 +55,11 @@
               [class.rotated]="activeMenu === item.label">▼</span>
           </a>
 
-          <!-- Submenu -->
-          <div class="submenu" *ngIf="!isCollapsed && activeMenu === item.label">
+          <!-- Submenu with smooth animation -->
+          <div 
+            class="submenu" 
+            [class.open]="activeMenu === item.label"
+            *ngIf="!isCollapsed && activeMenu === item.label">
             <a 
               *ngFor="let child of item.children"
               [routerLink]="child.route"

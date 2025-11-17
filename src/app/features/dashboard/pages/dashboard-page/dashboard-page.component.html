@@ -1,41 +1,46 @@
 <div class="dashboard-container">
-  <!-- Sales Chart -->
+  <!-- Sales Chart (Full Width) -->
   <div class="chart-section">
     <app-sales-chart></app-sales-chart>
   </div>
 
-  <!-- KPI Widgets with Timeframe -->
-  <div class="kpi-widgets-row">
-    <!-- Sales Widget -->
-    <div class="kpi-widget-item">
-      <app-sales-widget 
-        [selectedTimeframe]="globalTimeframe"
-       >
-      </app-sales-widget>
+  <!-- Main Content Row -->
+  <div class="content-row">
+    <!-- Left: KPI Widgets (4 Cards) -->
+    <div class="kpi-widgets-grid">
+      <div class="kpi-widget-item">
+        <app-sales-widget 
+          [selectedTimeframe]="globalTimeframe"
+          (timeframeChange)="onTimeframeChange($event)">
+        </app-sales-widget>
+      </div>
+
+      <div class="kpi-widget-item">
+        <app-statistics-widget 
+          [selectedTimeframe]="globalTimeframe"
+          (timeframeChange)="onTimeframeChange($event)">
+        </app-statistics-widget>
+      </div>
+
+      <div class="kpi-widget-item">
+        <app-break-even-widget 
+          [selectedTimeframe]="globalTimeframe"
+          (timeframeChange)="onTimeframeChange($event)">
+        </app-break-even-widget>
+      </div>
+
+      <div class="kpi-widget-item">
+        <app-ours-widget 
+          [selectedTimeframe]="globalTimeframe"
+          (timeframeChange)="onTimeframeChange($event)">
+        </app-ours-widget>
+      </div>
     </div>
 
-    <!-- Statistics Widget -->
-    <div class="kpi-widget-item">
-      <app-statistics-widget 
-        [selectedTimeframe]="globalTimeframe"
-       >
-      </app-statistics-widget>
-    </div>
-
-    <!-- Break-Even Widget -->
-    <div class="kpi-widget-item">
-      <app-break-even-widget 
-        [selectedTimeframe]="globalTimeframe"
-       >
-      </app-break-even-widget>
-    </div>
-
-    <!-- Ours Widget -->
-    <div class="kpi-widget-item">
-      <app-ours-widget 
-        [selectedTimeframe]="globalTimeframe"
-       >
-      </app-ours-widget>
+    <!-- Right: Top Vendors/Items Widget -->
+    <div class="sidebar-widget">
+      <app-info-box></app-info-box>
+      <app-top-vendors></app-top-vendors>
     </div>
   </div>
 </div>

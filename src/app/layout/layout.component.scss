@@ -7,8 +7,9 @@
 .layout-container {
   display: flex;
   flex: 1;
-  margin-left: 70px; // عرض الـ Sidebar المُصغر
-  transition: margin-left 0.3s ease;
+  margin-left: 70px;
+  // ✅ Smooth transition عند تغيير margin
+  transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .main-content {
@@ -16,4 +17,6 @@
   padding: 24px;
   background: #f8fafc;
   overflow-y: auto;
+  // ✅ Smooth transition
+  transition: all 0.3s ease;
 }

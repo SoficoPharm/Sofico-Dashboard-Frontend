@@ -1,0 +1,18 @@
+<div class="info-box">
+  <div class="info-header">
+    <span class="version">Version: {{ version }}</span>
+    <button class="refresh-btn" (click)="updateDateTime()">🔄</button>
+  </div>
+  
+  <div class="datetime-section">
+    <div class="current-time">
+      <span class="day">{{ currentDay }},</span>
+      <span class="time">{{ currentTime }}</span>
+    </div>
+  </div>
+
+  <div class="sync-info">
+    <span class="sync-label">Last Sync:</span>
+    <span class="sync-value">{{ lastSync }}</span>
+  </div>
+</div>

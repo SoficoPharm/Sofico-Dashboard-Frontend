@@ -28,7 +28,23 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/sales/sales.routes')
             .then(m => m.SALES_ROUTES)
-      }
+      },
+
+      // Vendors Module
+      {
+        path: 'vendors',
+        loadChildren: () =>
+          import('./features/vendors/vendors.routes')
+            .then(m => m.VENDORS_ROUTES)
+      },
+
+      // Items Module
+      {
+        path: 'items',
+        loadChildren: () =>
+          import('./features/items/items.routes')
+            .then(m => m.ITEMS_ROUTES)
+      },
     ]
   }
 ];
