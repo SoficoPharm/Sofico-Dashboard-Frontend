@@ -6,7 +6,7 @@
 
   <!-- Main Content Row -->
   <div class="content-row">
-    <!-- Left: KPI Widgets (4 Cards) -->
+    <!-- Left: KPI Widgets -->
     <div class="kpi-widgets-grid">
       <div class="kpi-widget-item">
         <app-sales-widget 
@@ -36,11 +36,17 @@
         </app-ours-widget>
       </div>
     </div>
-
-    <!-- Right: Top Vendors/Items Widget -->
-    <div class="sidebar-widget">
+    
+    <!-- Right: Info Box + Top Vendors/Items -->
+    <div class="sidebar-widgets">
       <app-info-box></app-info-box>
       <app-top-vendors></app-top-vendors>
     </div>
   </div>
+   <div class="KPI-Card">
+    <!-- KPI Cards (4 Cards) -->
+  <app-kpi-cards  [selectedTimeframe]="globalTimeframe"
+          (timeframeChange)="onTimeframeChange($event)"></app-kpi-cards>
+
+   </div>
 </div>

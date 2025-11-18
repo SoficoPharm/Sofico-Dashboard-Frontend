@@ -30,7 +30,9 @@ export class TopVendorsComponent {
     { id: '7', name: 'شركة تجارة أدوية فرقا', logo: '📈', sales: 45054, target: 0 },
     { id: '8', name: 'شركة تجارة أدوية بناء', logo: '📈', sales: 0, target: 0 },
     { id: '9', name: 'AMRIYA PHARMACEUTICAL', logo: '📈', sales: 24079, target: 0 },
-    { id: '10', name: 'PHARMA_LOCAL', logo: '📈', sales: 17288, target: 0 }
+    { id: '10', name: 'PHARMA_LOCAL', logo: '📈', sales: 17288, target: 0 },
+    { id: '12', name: 'PHARMA_LOCAL', logo: '📈', sales: 17288, target: 0 },
+    { id: '13', name: 'PHARMA_LOCAL', logo: '📈', sales: 17288, target: 0 },
   ];
 
   topItems: Vendor[] = [
@@ -43,7 +45,11 @@ export class TopVendorsComponent {
     { id: '7', name: 'Product G', logo: '📦', sales: 480000, target: 0 },
     { id: '8', name: 'Product H', logo: '📦', sales: 420000, target: 0 },
     { id: '9', name: 'Product I', logo: '📦', sales: 380000, target: 0 },
-    { id: '10', name: 'Product J', logo: '📦', sales: 320000, target: 0 }
+    { id: '10', name: 'Product J', logo: '📦', sales: 320000, target: 0 },
+    { id: '11', name: 'Product J', logo: '📦', sales: 320000, target: 0 },
+    { id: '12', name: 'Product J', logo: '📦', sales: 320000, target: 0 },
+    { id: '13', name: 'Product J', logo: '📦', sales: 320000, target: 0 },
+
   ];
 
   constructor(private router: Router) {}

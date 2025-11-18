@@ -20,3 +20,15 @@
   // ✅ Smooth transition
   transition: all 0.3s ease;
 }
+// Responsive
+@media (max-width: 1023px) {
+  .layout-container {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .main-content {
+    padding: 0;
+  }
+}

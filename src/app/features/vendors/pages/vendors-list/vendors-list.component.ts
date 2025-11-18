@@ -37,7 +37,8 @@ export class VendorsListComponent implements OnInit {
       { id: '7', name: 'AMRIYA PHARMACEUTICAL', logo: '📈', sales: 24079, target: 30000, achievedPercentage: 80.3 },
       { id: '8', name: 'PHARMA_LOCAL', logo: '📈', sales: 17288, target: 20000, achievedPercentage: 86.4 },
       { id: '9', name: 'MED SUPPLIES CO', logo: '📈', sales: 156000, target: 180000, achievedPercentage: 86.7 },
-      { id: '10', name: 'HEALTH PHARMA', logo: '📈', sales: 98500, target: 120000, achievedPercentage: 82.1 }
+      { id: '10', name: 'HEALTH PHARMA', logo: '📈', sales: 98500, target: 120000, achievedPercentage: 82.1 },
+      
     ];
     this.filteredVendors = [...this.vendors];
   }
