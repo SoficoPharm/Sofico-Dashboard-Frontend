@@ -1,0 +1,357 @@
+.app-sidebar {
+  background: #2c3e50;
+  width: 260px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  // ✅ تحسين الـ Transition ليكون أكثر سلاسة
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #ecf0f1;
+  overflow: hidden; // ✅ تغيير من auto إلى hidden
+  z-index: 1000;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+
+  &.collapsed {
+    width: 70px;
+
+    .sidebar-header .logo-text {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+
+    .menu-label,
+    .menu-badge,
+    .menu-title,
+    .expand-icon {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+
+    .menu-icon {
+      margin: 0 auto;
+    }
+
+    // ✅ Smooth transition للـ User Profile
+    .user-profile {
+      opacity: 0;
+      transform: scale(0.8);
+      pointer-events: none;
+    }
+  }
+
+  // ✅ إضافة overflow للـ scrolling
+  &:not(.collapsed) {
+    overflow-y: auto;
+  }
+
+  // Sidebar Header
+  .sidebar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    min-height: 64px;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .logo-icon {
+        width: 32px;
+        height: 32px;
+        transition: transform 0.3s ease;
+      }
+
+      .logo-text {
+        font-size: 18px;
+        font-weight: 700;
+        white-space: nowrap;
+        // ✅ Smooth animation للنص
+        transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+      }
+    }
+
+    // ✅ تأثير عند Hover على اللوجو
+    &:hover .logo-icon {
+      transform: rotate(360deg);
+    }
+  }
+
+  // User Profile
+  .user-profile {
+    padding: 20px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    // ✅ Smooth transition
+    transition: opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s;
+
+    .profile-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-bottom: 12px;
+      background: #7f8c8d;
+      object-fit: cover;
+      // ✅ تأثير عند Hover
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .profile-name {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .profile-email {
+        font-size: 11px;
+        color: #95a5a6;
+      }
+    }
+  }
+
+  // Menu
+  .sidebar-menu {
+    flex: 1;
+    padding: 16px 0;
+
+    .menu-title {
+      display: block;
+      padding: 8px 16px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #95a5a6;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      // ✅ Smooth animation
+      transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+    }
+
+    .menu-list {
+      display: flex;
+      flex-direction: column;
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        color: #ecf0f1;
+        text-decoration: none;
+        // ✅ Smooth transition للـ hover
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        cursor: pointer;
+
+        &:hover {
+          background: rgba(52, 152, 219, 0.15);
+          color: #3498db;
+          padding-left: 20px; // ✅ تأثير حركة عند Hover
+        }
+
+        &.active {
+          background: #d97706;
+          color: #fff;
+          font-weight: 600;
+
+          &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #f59e0b;
+            // ✅ Animation للخط الجانبي
+            animation: slideIn 0.3s ease;
+          }
+        }
+
+        .menu-icon {
+          font-size: 18px;
+          flex-shrink: 0;
+          // ✅ تأثير عند Hover
+          transition: transform 0.2s ease;
+        }
+
+        &:hover .menu-icon {
+          transform: scale(1.2);
+        }
+
+        .menu-label {
+          flex: 1;
+          font-size: 14px;
+          white-space: nowrap;
+          // ✅ Smooth animation
+          transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+        }
+
+        .menu-badge {
+          background: #10b981;
+          color: #fff;
+          font-size: 10px;
+          padding: 2px 8px;
+          border-radius: 12px;
+          font-weight: 600;
+          text-transform: uppercase;
+          // ✅ Smooth animation
+          transition: opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s;
+          animation: pulse 2s infinite;
+        }
+
+        .expand-icon {
+          margin-left: auto;
+          font-size: 10px;
+          // ✅ Smooth rotation
+          transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
+                      opacity 0.3s ease 0.1s;
+
+          &.rotated {
+            transform: rotate(180deg);
+          }
+        }
+      }
+    }
+  }
+
+  // Menu Group (Submenu)
+  .menu-group {
+    .submenu {
+      padding-left: 40px;
+      background: rgba(0, 0, 0, 0.2);
+      // ✅ Smooth animation للقائمة الفرعية
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      
+      // ✅ عند الفتح
+      &.open {
+        max-height: 500px;
+      }
+      
+      .submenu-item {
+        display: block;
+        padding: 10px 16px;
+        color: #bdc3c7;
+        text-decoration: none;
+        font-size: 13px;
+        // ✅ Smooth transition
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0;
+        transform: translateX(-10px);
+        // ✅ Staggered animation
+        animation: slideInSubmenu 0.3s ease forwards;
+
+        @for $i from 1 through 10 {
+          &:nth-child(#{$i}) {
+            animation-delay: #{$i * 0.05}s;
+          }
+        }
+
+        &:hover {
+          background: rgba(52, 152, 219, 0.15);
+          color: #3498db;
+          padding-left: 20px;
+        }
+
+        &.active {
+          background: rgba(217, 119, 6, 0.3);
+          color: #fff;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  // ✅ Scrollbar Styling
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+  }
+}
+
+// ✅ Keyframe Animations
+@keyframes slideIn {
+  from {
+    width: 0;
+  }
+  to {
+    width: 4px;
+  }
+}
+
+@keyframes slideInSubmenu {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+// ✅ Smooth transition للـ submenu
+.app-sidebar:not(.collapsed) .submenu {
+  max-height: 500px;
+}
+
+// Mobile Responsive
+@media (max-width: 1023px) {
+  .app-sidebar {
+    transform: translateX(-100%);
+    
+    &:not(.collapsed) {
+      transform: translateX(0);
+    }
+  }
+}
+
+// Mobile Overlay
+@media (max-width: 1023px) {
+  .app-sidebar:not(.collapsed)::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 260px;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+  }
+}

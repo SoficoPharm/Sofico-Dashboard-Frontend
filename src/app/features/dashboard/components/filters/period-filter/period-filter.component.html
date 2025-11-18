@@ -1,0 +1,14 @@
+<div class="period-filter">
+  <button 
+    class="filter-btn" 
+    [class.active]="selectedPeriod === 'monthly'"
+    (click)="onPeriodChange('monthly')">
+    Monthly
+  </button>
+  <button 
+    class="filter-btn" 
+    [class.active]="selectedPeriod === 'daily'"
+    (click)="onPeriodChange('daily')">
+    Daily
+  </button>
+</div>

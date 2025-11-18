@@ -1,0 +1,68 @@
+<div class="top-vendors-widget">
+  <!-- Tabs -->
+  <div class="tabs">
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'vendors'"
+      (click)="switchTab('vendors')">
+      Top Vendors
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'items'"
+      (click)="switchTab('items')">
+      Top Items
+    </button>
+  </div>
+
+  <!-- View All Button -->
+  <div class="view-all-container">
+    <button class="view-all-btn" (click)="viewAll()">
+      <span class="icon">👁️</span>
+      View All {{ activeTab === 'vendors' ? 'Vendors' : 'Items' }}
+    </button>
+  </div>
+
+  <!-- List -->
+  <div class="list-container">
+    <!-- Vendors List -->
+    <div class="items-list" *ngIf="activeTab === 'vendors'">
+      <div class="item" *ngFor="let vendor of topVendors">
+        <div class="item-header">
+          <span class="item-icon">{{ vendor.logo }}</span>
+          <span class="item-name">{{ vendor.name }}</span>
+        </div>
+        <div class="item-stats">
+          <div class="stat">
+            <span class="stat-label">Sales</span>
+            <span class="stat-value">{{ formatNumber(vendor.sales) }}</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Target</span>
+            <span class="stat-value">{{ vendor.target }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Items List -->
+    <div class="items-list" *ngIf="activeTab === 'items'">
+      <div class="item" *ngFor="let item of topItems">
+        <div class="item-header">
+          <span class="item-icon">{{ item.logo }}</span>
+          <span class="item-name">{{ item.name }}</span>
+        </div>
+        <div class="item-stats">
+          <div class="stat">
+            <span class="stat-label">Sales</span>
+            <span class="stat-value">{{ formatNumber(item.sales) }}</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Target</span>
+            <span class="stat-value">{{ item.target }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

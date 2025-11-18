@@ -1,0 +1,53 @@
+<div class="items-page">
+  <div class="page-header">
+    <h1>All Items</h1>
+    <div class="search-box">
+      <input 
+        type="text" 
+        placeholder="Search items..."
+        (input)="onSearch($event)"
+        class="search-input">
+      <span class="search-icon">🔍</span>
+    </div>
+  </div>
+
+  <div class="items-grid">
+    <div class="item-card" *ngFor="let item of filteredItems">
+      <div class="card-header">
+        <span class="item-logo">{{ item.logo }}</span>
+        <div class="item-info">
+          <h3 class="item-name">{{ item.name }}</h3>
+          <span class="item-category">{{ item.category }}</span>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="stat-row">
+          <span class="stat-label">Sales:</span>
+          <span class="stat-value">{{ formatNumber(item.sales) }}</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Target:</span>
+          <span class="stat-value">{{ formatNumber(item.target) }}</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Achieved:</span>
+          <span class="stat-value success">{{ item.achievedPercentage }}%</span>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="progress-bar">
+          <div 
+            class="progress-fill" 
+            [style.width.%]="item.achievedPercentage">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-results" *ngIf="filteredItems.length === 0">
+    <p>No items found matching "{{ searchQuery }}"</p>
+  </div>
+</div>

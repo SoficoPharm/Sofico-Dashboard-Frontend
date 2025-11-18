@@ -1,0 +1,193 @@
+// .dashboard-container {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 24px;
+
+//   .chart-section {
+//     width: 100%;
+//   }
+
+//   .content-row {
+//     display: grid;
+//     grid-template-columns: 1fr 350px; // Left: Cards, Right: Vendors
+//     gap: 24px;
+
+//     .kpi-widgets-grid {
+//       display: grid;
+//       grid-template-columns: repeat(2, 1fr); // 2x2 Grid
+//       gap: 20px;
+
+//       .kpi-widget-item {
+//         min-width: 0;
+//         min-height: 500px;
+//         padding-bottom: 40px;
+//       }
+//     }
+
+//     .sidebar-widget {
+//       position: sticky;
+//       top: 20px;
+//       height: fit-content;
+//     }
+//   }
+
+//   // Responsive
+//   @media (max-width: 1400px) {
+//     .content-row {
+//       grid-template-columns: 1fr;
+
+//       .sidebar-widget {
+//         position: static;
+//       }
+//     }
+
+//     .kpi-widgets-grid {
+//       grid-template-columns: repeat(2, 1fr);
+//     }
+//   }
+
+//   @media (max-width: 768px) {
+//     .kpi-widgets-grid {
+//       grid-template-columns: 1fr;
+//     }
+//   }
+// }
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px;
+
+  // Chart Section
+  .chart-section {
+    width: 100%;
+  }
+
+  // Main Content Row
+  .content-row {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 24px;
+
+    .kpi-widgets-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+
+      .kpi-widget-item {
+        min-width: 0;
+        min-height: 500px;
+        padding-bottom: 40px;
+
+      }
+    }
+
+    .sidebar-widgets {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: sticky;
+      top: 20px;
+      height: fit-content;
+    }
+  }
+
+  .KPI-Card {
+    margin-top: 20px;
+    padding: 20px;
+  }
+
+  // ========================================
+  // Responsive Breakpoints
+  // ========================================
+
+  // Large Desktop (1600px+)
+  @media (min-width: 1600px) {
+    max-width: 1920px;
+    margin: 0 auto;
+  }
+
+  // Desktop (1200px - 1599px)
+  @media (max-width: 1599px) {
+    .content-row {
+      grid-template-columns: 1fr 320px;
+
+      .kpi-widgets-grid {
+        gap: 16px;
+      }
+    }
+  }
+
+  // Laptop (1024px - 1199px)
+  @media (max-width: 1199px) {
+    padding: 16px;
+    gap: 20px;
+
+    .content-row {
+      grid-template-columns: 1fr;
+
+      .sidebar-widgets {
+        position: static;
+        flex-direction: row;
+
+        >* {
+          flex: 1;
+        }
+      }
+    }
+  }
+
+  // Tablet (768px - 1023px)
+  @media (max-width: 1023px) {
+    padding: 12px;
+    gap: 16px;
+
+    .content-row {
+      .kpi-widgets-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar-widgets {
+        flex-direction: column;
+      }
+    }
+  }
+
+  // Mobile (up to 767px)
+  @media (max-width: 767px) {
+    padding: 8px;
+    gap: 12px;
+
+    .chart-section {
+      margin: 0 -8px;
+    }
+
+    .content-row {
+      gap: 12px;
+
+      .kpi-widgets-grid {
+        gap: 12px;
+
+        .kpi-widget-item {
+          min-height: auto;
+        }
+      }
+
+      .sidebar-widgets {
+        gap: 12px;
+      }
+    }
+  }
+
+  // Small Mobile (up to 480px)
+  @media (max-width: 480px) {
+    padding: 4px;
+    gap: 8px;
+
+    .content-row {
+      .kpi-widgets-grid {
+        gap: 8px;
+      }
+    }
+  }
+}

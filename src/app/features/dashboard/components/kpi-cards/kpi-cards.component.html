@@ -1,0 +1,43 @@
+<div class="kpi-cards-container">
+  <div class="kpi-card" *ngFor="let card of kpiCards">
+    <!-- Card Header -->
+    <div class="card-header">
+      <div class="card-title">
+        <span class="card-icon">{{ card.icon }}</span>
+        <h3>{{ card.title }}</h3>
+      </div>
+     <!-- Timeframe Selector -->
+    <div class="timeframe-selector">
+      <button 
+        *ngFor="let tf of timeframes"
+        class="timeframe-btn"
+        [class.active]="selectedTimeframe === tf"
+        (click)="onTimeframeChange(tf)">
+        {{ tf }}
+      </button>
+    </div>
+    </div>
+
+    <!-- Card Body -->
+    <div class="card-body">
+      <ng-container *ngFor="let section of card.sections">
+        <!-- Section Title -->
+        <div class="section-title" *ngIf="section.title">
+          {{ section.title }}
+        </div>
+
+        <!-- Section Items -->
+        <div class="section-items">
+          <div 
+            class="kpi-item" 
+            *ngFor="let item of section.items"
+            [class.highlight]="item.highlight">
+            <span class="item-label">{{ item.label }}</span>
+            <span class="item-value">{{ formatNumber(item.value) }}</span>
+            <span class="item-percentage" *ngIf="item.percentage">{{ item.percentage }}</span>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

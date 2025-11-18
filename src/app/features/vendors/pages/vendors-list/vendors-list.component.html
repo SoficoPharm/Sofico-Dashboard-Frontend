@@ -1,0 +1,50 @@
+<div class="vendors-page">
+  <div class="page-header">
+    <h1>All Vendors</h1>
+    <div class="search-box">
+      <input 
+        type="text" 
+        placeholder="Search vendors..."
+        (input)="onSearch($event)"
+        class="search-input">
+      <span class="search-icon">🔍</span>
+    </div>
+  </div>
+
+  <div class="vendors-grid">
+    <div class="vendor-card" *ngFor="let vendor of filteredVendors">
+      <div class="card-header">
+        <span class="vendor-logo">{{ vendor.logo }}</span>
+        <h3 class="vendor-name">{{ vendor.name }}</h3>
+      </div>
+
+      <div class="card-body">
+        <div class="stat-row">
+          <span class="stat-label">Sales:</span>
+          <span class="stat-value">{{ formatNumber(vendor.sales) }}</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Target:</span>
+          <span class="stat-value">{{ formatNumber(vendor.target) }}</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Achieved:</span>
+          <span class="stat-value success">{{ vendor.achievedPercentage }}%</span>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="progress-bar">
+          <div 
+            class="progress-fill" 
+            [style.width.%]="vendor.achievedPercentage">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-results" *ngIf="filteredVendors.length === 0">
+    <p>No vendors found matching "{{ searchQuery }}"</p>
+  </div>
+</div>

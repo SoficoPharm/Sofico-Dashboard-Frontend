@@ -1,0 +1,18 @@
+<div class="branch-filter">
+  <label class="branch-label">
+    🏢 Branch:
+  </label>
+  <select 
+    class="branch-select"
+    [value]="selectedBranchId || 'all'"
+    (change)="onBranchChange($event)"
+  >
+    <option value="all">All Branches</option>
+    <option 
+      *ngFor="let branch of branches" 
+      [value]="branch.id"
+    >
+      {{ branch.name }}
+    </option>
+  </select>
+</div>

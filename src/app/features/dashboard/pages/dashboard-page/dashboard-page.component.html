@@ -1,0 +1,52 @@
+<div class="dashboard-container">
+  <!-- Sales Chart (Full Width) -->
+  <div class="chart-section">
+    <app-sales-chart></app-sales-chart>
+  </div>
+
+  <!-- Main Content Row -->
+  <div class="content-row">
+    <!-- Left: KPI Widgets -->
+    <div class="kpi-widgets-grid">
+      <div class="kpi-widget-item">
+        <app-sales-widget 
+          [selectedTimeframe]="globalTimeframe"
+          (timeframeChange)="onTimeframeChange($event)">
+        </app-sales-widget>
+      </div>
+
+      <div class="kpi-widget-item">
+        <app-statistics-widget 
+          [selectedTimeframe]="globalTimeframe"
+          (timeframeChange)="onTimeframeChange($event)">
+        </app-statistics-widget>
+      </div>
+
+      <div class="kpi-widget-item">
+        <app-break-even-widget 
+          [selectedTimeframe]="globalTimeframe"
+          (timeframeChange)="onTimeframeChange($event)">
+        </app-break-even-widget>
+      </div>
+
+      <div class="kpi-widget-item">
+        <app-ours-widget 
+          [selectedTimeframe]="globalTimeframe"
+          (timeframeChange)="onTimeframeChange($event)">
+        </app-ours-widget>
+      </div>
+    </div>
+    
+    <!-- Right: Info Box + Top Vendors/Items -->
+    <div class="sidebar-widgets">
+      <app-info-box></app-info-box>
+      <app-top-vendors></app-top-vendors>
+    </div>
+  </div>
+   <div class="KPI-Card">
+    <!-- KPI Cards (4 Cards) -->
+  <app-kpi-cards  [selectedTimeframe]="globalTimeframe"
+          (timeframeChange)="onTimeframeChange($event)"></app-kpi-cards>
+
+   </div>
+</div>

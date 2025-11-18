@@ -1,0 +1,11 @@
+<div class="date-filter">
+  <label class="date-label">
+    📅 Date:
+  </label>
+  <input 
+    type="date" 
+    class="date-input"
+    [value]="formattedDate"
+    (change)="onDateChange($event)"
+  />
+</div>

@@ -1,0 +1,98 @@
+<div class="sales-widget">
+  <!-- Header -->
+  <div class="widget-header">
+    <div class="widget-title">
+      <span class="icon">💰</span>
+      <h3>Sales</h3>
+    </div>
+    
+    <!-- Timeframe Selector -->
+    <div class="timeframe-selector">
+      <button 
+        *ngFor="let tf of timeframes"
+        class="timeframe-btn"
+        [class.active]="selectedTimeframe === tf"
+        (click)="onTimeframeChange(tf)">
+        {{ tf }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Sales Value -->
+  <div class="main-value">
+    <div class="invoice-count">{{ data?.invoiceCount || 0 }} / 0</div>
+    <div class="sales-amount">{{ formatNumber(data?.totalSales || 0) }}</div>
+  </div>
+
+  <!-- Sales Metrics -->
+  <div class="metrics-grid">
+    <!-- S.D -->
+    <div class="metric-item">
+      <span class="metric-label">S.D</span>
+      <span class="metric-value">{{ formatNumber(data?.sd || 0) }}</span>
+    </div>
+
+    <!-- All Sales -->
+    <div class="metric-item">
+      <span class="metric-label">All Sales</span>
+      <span class="metric-value">{{ formatNumber(data?.allSales || 0) }}</span>
+    </div>
+
+    <!-- Total Discount -->
+    <div class="metric-item">
+      <span class="metric-label">Tot Discount</span>
+      <span class="metric-value">
+        {{ formatNumber(data?.totalDiscount || 0) }} 
+        <span class="percentage">({{ data?.discountPercentage || 0 }}%)</span>
+      </span>
+    </div>
+
+    <!-- Return -->
+    <div class="metric-item">
+      <span class="metric-label">Return</span>
+      <span class="metric-value">{{ formatNumber(data?.return || 0) }}</span>
+    </div>
+
+    <!-- Return % -->
+    <div class="metric-item">
+      <span class="metric-label">Return %</span>
+      <span class="metric-value">{{ data?.returnPercentage || 0 }}</span>
+    </div>
+
+    <!-- Target -->
+    <div class="metric-item highlight">
+      <span class="metric-label">Target</span>
+      <span class="metric-value">{{ formatNumber(data?.target || 0) }}</span>
+    </div>
+
+    <!-- Achieved % -->
+    <div class="metric-item highlight">
+      <span class="metric-label">Achieved %</span>
+      <span class="metric-value">{{ data?.achievedPercentage || 0 }}</span>
+    </div>
+
+    <!-- Remaining -->
+    <div class="metric-item">
+      <span class="metric-label">Remaining</span>
+      <span class="metric-value">{{ formatNumber(data?.remaining || 0) }}</span>
+    </div>
+
+    <!-- Remaining % -->
+    <div class="metric-item">
+      <span class="metric-label">Remaining %</span>
+      <span class="metric-value">{{ data?.remainingPercentage || 0 }}</span>
+    </div>
+
+    <!-- STP -->
+    <div class="metric-item">
+      <span class="metric-label">STP</span>
+      <span class="metric-value">{{ formatNumber(data?.stp || 0) }}</span>
+    </div>
+
+    <!-- STP% -->
+    <div class="metric-item">
+      <span class="metric-label">STP%</span>
+      <span class="metric-value">{{ data?.stpPercentage || 0 }}</span>
+    </div>
+  </div>
+</div>
