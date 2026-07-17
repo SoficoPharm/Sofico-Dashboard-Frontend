@@ -1,0 +1,80 @@
+<div class="dchl-widget">
+  <div class="widget-header">
+    <div class="widget-title">
+      <h3>DCHL Target</h3>
+    </div>
+
+    <div class="timeframe-selector">
+      <button
+        *ngFor="let tf of timeframes"
+        class="timeframe-btn"
+        [class.active]="selectedTimeframe === tf"
+        (click)="onTimeframeChange(tf)">
+        {{ tf }}
+      </button>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    Loading...
+  </div>
+
+  <div class="sector-list" *ngIf="!loading">
+    <div class="sector-row retail">
+      <div class="sector-top">
+        <div class="sector-name">Retail</div>
+        <div class="sector-target">{{ formatNumber(data?.targetRetail || 0) }}</div>
+      </div>
+
+      <div class="sector-achieved">
+        Achieved: {{ formatNumber(data?.achievedRetailValue || 0) }}
+      </div>
+
+      <div class="sector-bar">
+        <div class="sector-fill" [style.width.%]="safePercent(data?.pactTargetRetail || 0)"></div>
+      </div>
+
+      <div class="sector-percent">
+        Achieved {{ data?.pactTargetRetail || 0 }}%
+      </div>
+    </div>
+
+    <div class="sector-row hospital">
+      <div class="sector-top">
+        <div class="sector-name">Hospital</div>
+        <div class="sector-target">{{ formatNumber(data?.targetHospital || 0) }}</div>
+      </div>
+
+      <div class="sector-achieved">
+        Achieved: {{ formatNumber(data?.achievedHospitalValue || 0) }}
+      </div>
+
+      <div class="sector-bar">
+        <div class="sector-fill" [style.width.%]="safePercent(data?.pactTargetHospital || 0)"></div>
+      </div>
+
+      <div class="sector-percent">
+        Achieved {{ data?.pactTargetHospital || 0 }}%
+      </div>
+    </div>
+
+    <div class="sector-row cosmetics">
+      <div class="sector-top">
+        <div class="sector-name">Cosmetics</div>
+        <div class="sector-target">{{ formatNumber(data?.targetCosmetics || 0) }}</div>
+      </div>
+
+      <div class="sector-achieved">
+        Achieved: {{ formatNumber(data?.achievedCosmeticsValue || 0) }}
+      </div>
+
+      <div class="sector-bar">
+        <div class="sector-fill" [style.width.%]="safePercent(data?.pactTargetCosmetics || 0)"></div>
+      </div>
+
+      <div class="sector-percent">
+        Achieved {{ data?.pactTargetCosmetics || 0 }}%
+      </div>
+    </div>
+  </div>
+</div>

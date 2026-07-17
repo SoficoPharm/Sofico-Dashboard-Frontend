@@ -1,193 +1,109 @@
-// .dashboard-container {
-//   display: flex;
-//   flex-direction: column;
-//   gap: 24px;
-
-//   .chart-section {
-//     width: 100%;
-//   }
-
-//   .content-row {
-//     display: grid;
-//     grid-template-columns: 1fr 350px; // Left: Cards, Right: Vendors
-//     gap: 24px;
-
-//     .kpi-widgets-grid {
-//       display: grid;
-//       grid-template-columns: repeat(2, 1fr); // 2x2 Grid
-//       gap: 20px;
-
-//       .kpi-widget-item {
-//         min-width: 0;
-//         min-height: 500px;
-//         padding-bottom: 40px;
-//       }
-//     }
-
-//     .sidebar-widget {
-//       position: sticky;
-//       top: 20px;
-//       height: fit-content;
-//     }
-//   }
-
-//   // Responsive
-//   @media (max-width: 1400px) {
-//     .content-row {
-//       grid-template-columns: 1fr;
-
-//       .sidebar-widget {
-//         position: static;
-//       }
-//     }
-
-//     .kpi-widgets-grid {
-//       grid-template-columns: repeat(2, 1fr);
-//     }
-//   }
-
-//   @media (max-width: 768px) {
-//     .kpi-widgets-grid {
-//       grid-template-columns: 1fr;
-//     }
-//   }
-// }
 .dashboard-container {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding: 20px;
+  gap: 22px;
+  box-sizing: border-box;
+  background: #f5f8f7;
 
-  // Chart Section
-  .chart-section {
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+
+  .chart-section,
+  .bottom-section {
     width: 100%;
+    min-width: 0;
   }
 
-  // Main Content Row
-  .content-row {
+  .widgets-row,
+  .middle-section {
     display: grid;
-    grid-template-columns: 1fr 350px;
-    gap: 24px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    align-items: stretch;
+    width: 100%;
+    min-width: 0;
 
-    .kpi-widgets-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+    overflow: visible !important;
+  }
 
-      .kpi-widget-item {
-        min-width: 0;
-        min-height: 500px;
-        padding-bottom: 40px;
+  .widget-card {
+    min-width: 0;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #edf1ef;
+    border-radius: 16px;
+    box-shadow: 0 10px 24px rgba(7, 41, 31, 0.07);
 
-      }
+    overflow: visible !important;
+    position: relative;
+    z-index: 1;
+
+    > * {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      overflow: visible !important;
     }
 
-    .sidebar-widgets {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      position: sticky;
-      top: 20px;
-      height: fit-content;
-    }
-  }
-
-  .KPI-Card {
-    margin-top: 20px;
-    padding: 20px;
-  }
-
-  // ========================================
-  // Responsive Breakpoints
-  // ========================================
-
-  // Large Desktop (1600px+)
-  @media (min-width: 1600px) {
-    max-width: 1920px;
-    margin: 0 auto;
-  }
-
-  // Desktop (1200px - 1599px)
-  @media (max-width: 1599px) {
-    .content-row {
-      grid-template-columns: 1fr 320px;
-
-      .kpi-widgets-grid {
-        gap: 16px;
-      }
+    &:hover {
+      z-index: 9999;
     }
   }
 
-  // Laptop (1024px - 1199px)
-  @media (max-width: 1199px) {
-    padding: 16px;
-    gap: 20px;
+  .middle-section > * {
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible !important;
+  }
+}
 
-    .content-row {
-      grid-template-columns: 1fr;
+::ng-deep app-statistics-widget,
+::ng-deep app-statistics-widget .statistics-widget {
+  overflow: visible !important;
+  position: relative;
+  z-index: 20;
+}
 
-      .sidebar-widgets {
-        position: static;
-        flex-direction: row;
+::ng-deep app-statistics-widget:hover,
+::ng-deep app-statistics-widget .statistics-widget:hover {
+  z-index: 9999;
+}
 
-        >* {
-          flex: 1;
-        }
-      }
+::ng-deep app-dchl-target-widget .dchl-widget,
+::ng-deep app-ours-widget .ours-widget {
+  height: 100%;
+  min-height: 330px;
+}
+
+::ng-deep app-top-vendors .top-vendors-widget {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+@media (max-width: 1250px) {
+  .dashboard-container {
+    .widgets-row,
+    .middle-section {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
+}
 
-  // Tablet (768px - 1023px)
-  @media (max-width: 1023px) {
-    padding: 12px;
+@media (max-width: 768px) {
+  .dashboard-container {
     gap: 16px;
 
-    .content-row {
-      .kpi-widgets-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar-widgets {
-        flex-direction: column;
-      }
-    }
-  }
-
-  // Mobile (up to 767px)
-  @media (max-width: 767px) {
-    padding: 8px;
-    gap: 12px;
-
-    .chart-section {
-      margin: 0 -8px;
-    }
-
-    .content-row {
-      gap: 12px;
-
-      .kpi-widgets-grid {
-        gap: 12px;
-
-        .kpi-widget-item {
-          min-height: auto;
-        }
-      }
-
-      .sidebar-widgets {
-        gap: 12px;
-      }
-    }
-  }
-
-  // Small Mobile (up to 480px)
-  @media (max-width: 480px) {
-    padding: 4px;
-    gap: 8px;
-
-    .content-row {
-      .kpi-widgets-grid {
-        gap: 8px;
-      }
+    .widgets-row,
+    .middle-section {
+      grid-template-columns: 1fr;
+      gap: 16px;
     }
   }
 }

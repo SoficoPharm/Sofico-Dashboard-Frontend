@@ -1,56 +1,157 @@
+import { environment } from './../../../../../environments/environment';
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-
-interface Vendor {
-  id: string;
-  name: string;
-  logo: string;
-  sales: number;
-  target: number;
-  achievedPercentage: number;
-}
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-vendors-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './vendors-list.component.html',
   styleUrls: ['./vendors-list.component.scss']
 })
 export class VendorsListComponent implements OnInit {
-  vendors: Vendor[] = [];
-  filteredVendors: Vendor[] = [];
+  // ✅ استخدام environment بدلاً من hardcoded URL
+  apiUrl = environment.apiBaseUrl;
+  
+  vendors: any[] = [];
+  filteredVendors: any[] = [];
   searchQuery = '';
+  
+  // ✅ Pagination
+  currentPage = 1;
+  pageSize = 100;
+  totalCount = 0;
+  totalPages = 0;
+  
+  // ✅ Loading & Error
+  isLoading = false;
+  errorMessage = '';
+
+  constructor(private http: HttpClient) {
+    console.log('========================================');
+    console.log('🏢 Vendors List Component Initialized');
+    console.log('📡 API URL:', this.apiUrl);
+    console.log('🏭 Environment:', environment.production ? 'Production' : 'Development');
+    console.log('========================================');
+  }
 
   ngOnInit(): void {
     this.loadVendors();
   }
 
+  /**
+   * ✅ تحميل كل الموردين من API الجديد
+   * GET: /api/DataSync/vendors?page=1&pageSize=100
+   */
   loadVendors(): void {
-    this.vendors = [
-      { id: '1', name: 'JANSSEN', logo: '📈', sales: 4432475, target: 5000000, achievedPercentage: 88.6 },
-      { id: '2', name: 'PFFI', logo: '📈', sales: 550415, target: 600000, achievedPercentage: 91.7 },
-      { id: '3', name: 'MARCYRL', logo: '📈', sales: 400904, target: 450000, achievedPercentage: 89.1 },
-      { id: '4', name: 'APEX pharma', logo: '📈', sales: 270977, target: 300000, achievedPercentage: 90.3 },
-      { id: '5', name: 'ADWIA', logo: '📈', sales: 0, target: 500000, achievedPercentage: 0 },
-      { id: '6', name: 'SUNNY PHARMACEUTICAL', logo: '📈', sales: 47150, target: 50000, achievedPercentage: 94.3 },
-      { id: '7', name: 'AMRIYA PHARMACEUTICAL', logo: '📈', sales: 24079, target: 30000, achievedPercentage: 80.3 },
-      { id: '8', name: 'PHARMA_LOCAL', logo: '📈', sales: 17288, target: 20000, achievedPercentage: 86.4 },
-      { id: '9', name: 'MED SUPPLIES CO', logo: '📈', sales: 156000, target: 180000, achievedPercentage: 86.7 },
-      { id: '10', name: 'HEALTH PHARMA', logo: '📈', sales: 98500, target: 120000, achievedPercentage: 82.1 },
-      
-    ];
-    this.filteredVendors = [...this.vendors];
+    console.log(`🏢 Loading all vendors - Page ${this.currentPage}`);
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    const url = `${this.apiUrl}/vendors?page=${this.currentPage}&pageSize=${this.pageSize}`;
+    
+    this.http.get(url).subscribe({
+      next: (res: any) => {
+        if (!res || !res.success || !res.data) {
+          console.log("API returned no data", res);
+          this.errorMessage = 'No data returned from API';
+          this.isLoading = false;
+          return;
+        }
+
+        // ✅ تحويل البيانات من format API الجديد
+        this.vendors = res.data.map((vendor: any) => ({
+          vendorCode: vendor.vendorCode,
+          vendorName: vendor.vendorName || vendor.vendorCode,
+          value: vendor.totalSales || 0,
+          orderCount: vendor.totalOrders || 0
+        }));
+        
+        this.filteredVendors = [...this.vendors];
+        this.totalCount = res.totalCount || 0;
+        this.totalPages = Math.ceil(this.totalCount / this.pageSize);
+        
+        console.log(`✅ Loaded ${this.vendors.length} vendors from total ${this.totalCount}`);
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error("❌ Error loading vendors:", err);
+        this.errorMessage = 'Failed to load vendors';
+        this.isLoading = false;
+      }
+    });
   }
 
-  onSearch(event: any): void {
-    this.searchQuery = event.target.value.toLowerCase();
-    this.filteredVendors = this.vendors.filter(vendor =>
-      vendor.name.toLowerCase().includes(this.searchQuery)
+  /**
+   * ✅ البحث في الموردين
+   */
+  filterVendors(): void {
+    const q = this.searchQuery.toLowerCase();
+    
+    if (!q) {
+      this.filteredVendors = [...this.vendors];
+      return;
+    }
+    
+    this.filteredVendors = this.vendors.filter(v =>
+      (v.vendorName && v.vendorName.toLowerCase().includes(q)) ||
+      (v.vendorCode && v.vendorCode.toLowerCase().includes(q))
     );
+    
+    console.log(`🔍 Search: "${q}" - Found ${this.filteredVendors.length} vendors`);
   }
 
+  /**
+   * ✅ حساب النسبة المئوية
+   */
+  getPercentage(value: number) {
+    if (!this.vendors.length) return 0;
+    const max = Math.max(...this.vendors.map(v => v.value || 0));
+    return max ? ((value / max) * 100).toFixed(1) : 0;
+  }
+
+  /**
+   * ✅ تنسيق الأرقام
+   */
   formatNumber(value: number): string {
-    return value.toLocaleString('en-US');
+    return value.toLocaleString('en-US', { 
+      minimumFractionDigits: 2, 
+      maximumFractionDigits: 2 
+    });
+  }
+
+  /**
+   * ✅ الصفحة التالية
+   */
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadVendors();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  /**
+   * ✅ الصفحة السابقة
+   */
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadVendors();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  /**
+   * ✅ الذهاب لصفحة محددة
+   */
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.loadVendors();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 }

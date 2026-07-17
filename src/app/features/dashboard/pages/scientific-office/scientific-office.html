@@ -1,0 +1,81 @@
+<app-header
+  (filtersChange)="onFiltersChange($event)">
+</app-header>
+
+<div class="scientific-office-container">
+
+  <div class="page-header">
+    <div class="page-title-wrap">
+      <span class="page-icon"><i class="ti ti-flask" aria-hidden="true"></i></span>
+      <h2 class="page-title">Scientific Office</h2>
+    </div>
+  </div>
+
+
+
+  <!-- Section 2: Ours / Top Vendors -->
+  <div class="widgets-section-header">
+
+    <div class="export-wrap">
+      <button
+        type="button"
+        class="export-btn"
+        [disabled]="!canExport || isExporting"
+        (click)="onExportClick()">
+        <span *ngIf="!isExporting">
+          <i class="ti ti-file-spreadsheet" aria-hidden="true"></i>
+          Export ours & Top Vendors - Top Items to Excel 
+        </span>
+        <span *ngIf="isExporting">
+          Exporting...
+        </span>
+      </button>
+
+      <p class="export-hint" *ngIf="!canExport">
+        Select a Monthly or Date Range filter to enable export.
+      </p>
+
+      <p class="export-error" *ngIf="exportError">
+        {{ exportError }}
+      </p>
+    </div>
+  </div>
+
+  <div class="widgets-row">
+
+    <!-- OURS -->
+    <section class="ours-section">
+      <app-ours-widget
+        [rows]="oursRows"
+        [summary]="oursSummary"
+        [loading]="oursLoading"
+        [selectedTimeframe]="globalTimeframe"
+        [dashboardFilter]="dashboardFilter"
+        (timeframeChange)="onTimeframeChange($event)">
+      </app-ours-widget>
+    </section>
+
+    <!-- Scientific Top Vendors / Top Items -->
+    <section class="vendors-items-section">
+      <div class="section-card">
+        <app-scientific-top-vendors
+          [dashboardFilter]="dashboardFilter">
+        </app-scientific-top-vendors>
+      </div>
+    </section>
+
+  </div>
+  <!-- ✅ Section 1: Vendor Analysis (first) -->
+  <div class="vendor-analysis-row">
+    <app-vendor-analysis
+      [dashboardFilter]="dashboardFilter">
+    </app-vendor-analysis>
+  </div>
+  <!-- Section 3: Customer Sales Detail Report -->
+  <div class="detail-report-row">
+    <app-customer-sales-detail
+      [dashboardFilter]="dashboardFilter">
+    </app-customer-sales-detail>
+  </div>
+
+</div>

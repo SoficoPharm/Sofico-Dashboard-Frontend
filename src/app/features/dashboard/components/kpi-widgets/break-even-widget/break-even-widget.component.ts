@@ -28,11 +28,11 @@ interface BreakEvenData {
 })
 export class BreakEvenWidgetComponent {
   @Input() data: BreakEvenData = {
-    percentage: 5.38,
-    maximumRate: 5.38,
+    percentage: 0,
+    maximumRate: 0,
     target: 0,
-    sales: 409729963,
-    collect: -18146389,
+    sales: 0,
+    collect: 0,
     expenses: {
       salaries: 0,
       commission: 0,

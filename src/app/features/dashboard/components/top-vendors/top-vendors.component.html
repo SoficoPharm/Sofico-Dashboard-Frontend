@@ -15,54 +15,96 @@
     </button>
   </div>
 
-  <!-- View All Button -->
-  <div class="view-all-container">
-    <button class="view-all-btn" (click)="viewAll()">
-      <span class="icon">👁️</span>
-      View All {{ activeTab === 'vendors' ? 'Vendors' : 'Items' }}
+  <!-- ✅ Timeframe Selector -->
+  <div class="timeframe-selector">
+    <button 
+      *ngFor="let tf of timeframes"
+      class="timeframe-btn"
+      [class.active]="selectedTimeframe === tf"
+      (click)="onTimeframeChange(tf)">
+      {{ tf }}
     </button>
   </div>
 
-  <!-- List -->
-  <div class="list-container">
+
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading {{ activeTab }}...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-state" *ngIf="errorMessage && !isLoading">
+    <p>❌ {{ errorMessage }}</p>
+    <button class="retry-btn" (click)="loadData()">Retry</button>
+  </div>
+
+  <!-- List Container -->
+  <div class="list-container" *ngIf="!isLoading && !errorMessage">
     <!-- Vendors List -->
     <div class="items-list" *ngIf="activeTab === 'vendors'">
-      <div class="item" *ngFor="let vendor of topVendors">
-        <div class="item-header">
-          <span class="item-icon">{{ vendor.logo }}</span>
-          <span class="item-name">{{ vendor.name }}</span>
-        </div>
-        <div class="item-stats">
-          <div class="stat">
-            <span class="stat-label">Sales</span>
-            <span class="stat-value">{{ formatNumber(vendor.sales) }}</span>
+      <div class="item" *ngFor="let vendor of topVendors; let i = index">
+        <div class="item-rank">{{ i + 1 }}</div>
+        <div class="item-content">
+          <div class="item-header">
+            <span class="item-icon">{{ vendor.logo }}</span>
+            <span class="item-name">{{ vendor.name }}</span>
           </div>
-          <div class="stat">
-            <span class="stat-label">Target</span>
-            <span class="stat-value">{{ vendor.target }}</span>
+          <div class="item-stats">
+            <div class="stat">
+              <span class="stat-label">Sales</span>
+              <span class="stat-value">{{ formatNumber(vendor.sales) }}</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Target</span>
+              <span class="stat-value">{{ vendor.target }}</span>
+            </div>
           </div>
         </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="topVendors.length === 0">
+        <p>📭 No vendors found for {{ selectedTimeframe }}</p>
       </div>
     </div>
 
     <!-- Items List -->
     <div class="items-list" *ngIf="activeTab === 'items'">
-      <div class="item" *ngFor="let item of topItems">
-        <div class="item-header">
-          <span class="item-icon">{{ item.logo }}</span>
-          <span class="item-name">{{ item.name }}</span>
-        </div>
-        <div class="item-stats">
-          <div class="stat">
-            <span class="stat-label">Sales</span>
-            <span class="stat-value">{{ formatNumber(item.sales) }}</span>
+      <div class="item" *ngFor="let item of topItems; let i = index">
+        <div class="item-rank">{{ i + 1 }}</div>
+        <div class="item-content">
+          <div class="item-header">
+            <span class="item-icon">{{ item.logo }}</span>
+            <span class="item-name">{{ item.name }}</span>
           </div>
-          <div class="stat">
-            <span class="stat-label">Target</span>
-            <span class="stat-value">{{ item.target }}</span>
+          <div class="item-stats">
+            <div class="stat">
+              <span class="stat-label">Sales</span>
+              <span class="stat-value">{{ formatNumber(item.sales) }}</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Target</span>
+              <span class="stat-value">{{ item.target }}</span>
+            </div>
           </div>
         </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="topItems.length === 0">
+        <p>📭 No items found for {{ selectedTimeframe }}</p>
       </div>
     </div>
   </div>
 </div>
+
+
+  <!-- View All Button
+  <div class="view-all-container">
+    <button class="view-all-btn" (click)="viewAll()">
+      <span class="icon">👁️</span>
+      View All {{ activeTab === 'vendors' ? 'Vendors' : 'Items' }}
+    </button>
+  </div> -->

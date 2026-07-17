@@ -1,0 +1,162 @@
+<!-- inventory-card.html -->
+
+<div class="dashboard-kpi-wrapper">
+
+  <div class="inventory-card-wrapper">
+    <div class="kpi-card">
+
+      <!-- HEADER -->
+      <div class="card-header">
+        <div class="card-title">
+          <span class="card-icon">📦</span>
+          <h3>Inventory</h3>
+        </div>
+      </div>
+
+      <!-- BODY -->
+      <div class="card-body">
+
+        <!-- TOTAL -->
+        <div class="kpi-section">
+          <div class="main-metric">
+            <span class="main-label">Total Stock</span>
+            <strong>
+              {{ formatNumber(inventoryData.totalStock) }}
+            </strong>
+          </div>
+        </div>
+  <!-- VALUATION -->
+        <div class="kpi-section">
+          <h4 class="section-title">Valuation</h4>
+
+          <div class="section-items">
+
+            <div class="kpi-item">
+              <span class="item-label">Normal</span>
+              <span class="item-value">
+                {{ formatNumber(inventoryData.normal) }}
+              </span>
+            </div>
+
+            <div class="kpi-item">
+              <span class="item-label">Expired</span>
+              <span class="item-value">
+                {{ formatNumber(inventoryData.expired) }}
+              </span>
+            </div>
+
+          </div>
+        </div>
+        <!-- SECTORS -->
+        <div class="kpi-section">
+          <h4 class="section-title">Business Sectors</h4>
+
+          <div class="section-items">
+
+            <div class="kpi-item">
+              <span class="item-label">Retail</span>
+              <span class="item-value">
+                {{ formatNumber(inventoryData.retail) }}
+              </span>
+            </div>
+
+            <div class="kpi-item">
+              <span class="item-label">Hospital</span>
+              <span class="item-value">
+                {{ formatNumber(inventoryData.hospital) }}
+              </span>
+            </div>
+
+            <div class="kpi-item">
+              <span class="item-label">Cosmetics</span>
+              <span class="item-value">
+                {{ formatNumber(inventoryData.cosmetics) }}
+              </span>
+            </div>
+
+            <div class="kpi-item">
+              <span class="item-label">SD</span>
+              <span class="item-value">
+                {{ formatNumber(inventoryData.sd) }}
+              </span>
+            </div>
+
+            <!-- TENDER MOVED HERE -->
+            <div class="kpi-item">
+              <span class="item-label">Tender</span>
+              <span class="item-value">
+                {{ formatNumber(inventoryData.tender) }}
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- STORES -->
+        <div class="kpi-section">
+          <h4 class="section-title">Stores</h4>
+
+          <div class="section-items">
+
+            <div class="kpi-item">
+              <span class="item-label">Main Store</span>
+              <span class="item-value">
+                {{ formatNumber(inventoryData.mainStore) }}
+              </span>
+            </div>
+
+            <div class="kpi-item">
+              <span class="item-label">Raw Material</span>
+              <span class="item-value">
+                {{ formatNumber(inventoryData.rawMat) }}
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- INVENTORY STATUS -->
+        <!-- <div class="kpi-section">
+          <h4 class="section-title">Inventory Status</h4>
+
+          <div class="section-items">
+
+            <div class="kpi-item">
+              <span class="item-label">Damage</span>
+              <span class="item-value">
+                {{ formatNumber(inventoryData.damage) }}
+              </span>
+            </div>
+
+            <div class="kpi-item">
+              <span class="item-label">Expired Storage</span>
+              <span class="item-value">
+                {{ formatNumber(inventoryData.expiredStorage) }}
+              </span>
+            </div>
+
+            <div class="kpi-item">
+              <span class="item-label">No Trade</span>
+              <span class="item-value">
+                {{ formatNumber(inventoryData.noTrade) }}
+              </span>
+            </div>
+
+            <div class="kpi-item">
+              <span class="item-label">Stock In Transit</span>
+              <span class="item-value">
+                {{ formatNumber(inventoryData.stockInTransit) }}
+              </span>
+            </div>
+
+          </div>
+        </div> -->
+
+      
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

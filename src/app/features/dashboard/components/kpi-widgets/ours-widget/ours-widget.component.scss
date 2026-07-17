@@ -1,158 +1,402 @@
 .ours-widget {
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #edf1ef;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 10px 24px rgba(7, 41, 31, 0.07);
   display: flex;
   flex-direction: column;
-  transition: all 0.3s;
-  height: 100%;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  margin-bottom: 22px;
 
-  &:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-    transform: translateY(-2px);
-  }
+  // ─── Header ───────────────────────────────────────────────────────────────
   .widget-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid #f0f0f0;
+    gap: 12px;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid #edf1ef;
 
     .widget-title {
       display: flex;
       align-items: center;
       gap: 8px;
 
+      .icon {
+        width: 24px;
+        height: 24px;
+        display: grid;
+        place-items: center;
+        border-radius: 6px;
+        background: #fff4ed;
+        font-size: 14px;
+      }
+
       h3 {
         margin: 0;
-        font-size: 16px;
-        font-weight: 600;
-        color: #333;
+        font-size: 15px;
+        font-weight: 900;
+        color: #111827;
       }
     }
 
-    .timeframe-badge {
-      padding: 4px 12px;
-      background: #f59e0b;
-      color: #fff;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: 500;
+    .timeframe-selector {
+      display: flex;
+      gap: 6px;
+
+      .timeframe-btn {
+        height: 28px;
+        padding: 0 10px;
+        border: 1px solid #dfe6e3;
+        background: #fff;
+        color: #6f827b;
+        font-size: 11px;
+        font-weight: 900;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s, border-color 0.2s;
+
+        &.active {
+          background: #c97843;
+          border-color: #c97843;
+          color: #fff;
+        }
+
+        &:hover:not(.active) {
+          background: #f5f7f6;
+        }
+      }
     }
   }
 
+  // ─── Summary Cards — same look as client-item ──────────────────────────────
+  .summary-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+
+    .summary-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 10px;
+      background: #f8faf9;
+      border: 1px solid #edf1ef;
+      border-radius: 10px;
+      transition: background 0.2s, transform 0.2s;
+      min-width: 0;
+      text-align: center;
+
+      &:hover {
+        background: #f1f5f3;
+        transform: translateY(-2px);
+      }
+
+      .summary-label {
+        display: block;
+        font-size: 10px;
+        color: #7d8d86;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.2px;
+      }
+
+      .summary-value {
+        display: block;
+        font-size: 13px;
+        font-weight: 900;
+        color: #111827;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  // ─── Chart ────────────────────────────────────────────────────────────────
   .chart-container {
-    height: 200px;
-    margin-bottom: 20px;
+    position: relative;
+    height: 180px;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
+  .chart-center-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    text-align: center;
+
+    .center-label {
+      font-size: 10px;
+      font-weight: 900;
+      color: #7d8d86;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .center-value {
+      font-size: 18px;
+      font-weight: 900;
+      color: #111827;
+      line-height: 1;
+    }
+  }
+
+  .chart-loading {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+  }
+
+  // ─── Clients List ─────────────────────────────────────────────────────────
   .clients-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    flex: 1;
+    gap: 8px;
 
     .client-item {
-      padding: 12px;
-      background: #f9fafb;
-      border-radius: 8px;
+      padding: 10px;
+      background: #f8faf9;
+      border: 1px solid #edf1ef;
+      border-radius: 10px;
+      transition: background 0.2s, transform 0.2s;
+
+      &:hover {
+        background: #f1f5f3;
+        transform: translateY(-2px);
+      }
+
+      &.center {
+        text-align: center;
+        padding: 20px;
+        color: #6f827b;
+        font-weight: 800;
+      }
 
       .client-header {
         display: flex;
         align-items: center;
-        gap: 8px;
-        margin-bottom: 8px;
+        gap: 6px;
+        margin-bottom: 6px;
 
         .client-color {
-          width: 12px;
-          height: 12px;
-          border-radius: 2px;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          flex-shrink: 0;
         }
 
         .client-name {
-          font-size: 13px;
-          font-weight: 600;
-          color: #333;
+          font-size: 12px;
+          font-weight: 900;
+          color: #111827;
         }
       }
 
       .client-stats {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
+        grid-template-columns: 0.8fr 1.3fr 0.7fr;
+        gap: 12px;
+        align-items: center;
 
         .stat {
-          display: flex;
-          flex-direction: column;
-          gap: 2px;
+          min-width: 0;
 
           .stat-label {
-            font-size: 11px;
-            color: #999;
+            display: block;
+            margin-bottom: 3px;
+            font-size: 10px;
+            color: #7d8d86;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
           }
 
           .stat-value {
-            font-size: 12px;
-            font-weight: 600;
-            color: #333;
+            display: block;
+            font-size: 13px;
+            font-weight: 900;
+            color: #111827;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+  }
+
+  // ─── Responsive ───────────────────────────────────────────────────────────
+
+  // Tablet: ≤ 768px
+  @media (max-width: 768px) {
+    padding: 14px;
+
+    .widget-header {
+      flex-wrap: wrap;
+
+      .timeframe-selector {
+        flex-wrap: wrap;
+      }
+    }
+
+    .summary-cards {
+      gap: 8px;
+    }
+
+    .chart-container {
+      height: 160px;
+    }
+
+    .clients-list {
+      .client-item {
+        .client-stats {
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 8px;
+        }
+      }
+    }
+  }
+
+  // Mobile: ≤ 600px
+  @media (max-width: 600px) {
+    padding: 12px;
+    border-radius: 12px;
+
+    .widget-header {
+      gap: 8px;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+
+      .widget-title h3 {
+        font-size: 13px;
+      }
+
+      .timeframe-selector {
+        gap: 4px;
+
+        .timeframe-btn {
+          height: 24px;
+          padding: 0 8px;
+          font-size: 10px;
+        }
+      }
+    }
+
+    .summary-cards {
+      gap: 6px;
+      margin-bottom: 10px;
+
+      .summary-card {
+        padding: 8px;
+
+        .summary-label {
+          font-size: 9px;
+        }
+
+        .summary-value {
+          font-size: 12px;
+        }
+      }
+    }
+
+    .chart-container {
+      height: 140px;
+      margin-bottom: 10px;
+    }
+
+    .clients-list {
+      gap: 6px;
+
+      .client-item {
+        padding: 8px;
+
+        .client-header {
+          margin-bottom: 4px;
+
+          .client-name {
+            font-size: 11px;
+          }
+        }
+
+        .client-stats {
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 6px;
+
+          .stat {
+            .stat-label { font-size: 9px; }
+            .stat-value { font-size: 11px; }
+          }
+        }
+      }
+    }
+  }
+
+  // Extra small: ≤ 380px
+  @media (max-width: 380px) {
+    .summary-cards {
+      .summary-card {
+        .summary-value {
+          font-size: 11px;
+        }
+      }
+    }
+
+    .clients-list {
+      .client-item {
+        .client-stats {
+          grid-template-columns: 1fr 1fr;
+
+          .stat:last-child {
+            display: none;
           }
         }
       }
     }
   }
 }
-.widget-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid #f0f0f0;
 
-  .widget-title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+// ─── Spinner ──────────────────────────────────────────────────────────────────
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #edf1ef;
+  border-top-color: #c97843;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
 
-    h3 {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 600;
-      color: #333;
-    }
+  &.big {
+    width: 26px;
+    height: 26px;
+    border-width: 3px;
   }
+}
 
-  // ✅ Timeframe Selector Styles
-  .timeframe-selector {
-    display: flex;
-    gap: 4px;
-
-    .timeframe-btn {
-      padding: 6px 12px;
-      border: 1px solid #e0e0e0;
-      background: #fff;
-      color: #666;
-      font-size: 11px;
-      font-weight: 500;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.2s;
-
-      &:hover {
-        background: #f5f5f5;
-        border-color: #3b82f6;
-      }
-
-      &.active {
-        background: #3b82f6;
-        color: #fff;
-        border-color: #3b82f6;
-      }
-    }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

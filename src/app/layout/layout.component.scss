@@ -1,34 +1,43 @@
 .app-layout {
-  display: flex;
-  flex-direction: column;
   min-height: 100vh;
+  background: #f3f6f5;
 }
 
 .layout-container {
   display: flex;
-  flex: 1;
+  min-height: 100vh;
   margin-left: 70px;
-  // ✅ Smooth transition عند تغيير margin
-  transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: margin-left 0.3s ease;
 }
 
 .main-content {
   flex: 1;
-  padding: 24px;
-  background: #f8fafc;
-  overflow-y: auto;
-  // ✅ Smooth transition
-  transition: all 0.3s ease;
+  min-width: 0;
+  width: 100%;
+  padding: 20px;
+  background: transparent;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
-// Responsive
+
 @media (max-width: 1023px) {
   .layout-container {
     margin-left: 0;
   }
+
+  .main-content {
+    padding: 14px;
+  }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .main-content {
-    padding: 0;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 10px;
   }
 }

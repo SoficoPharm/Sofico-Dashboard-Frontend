@@ -1,0 +1,172 @@
+.dchl-widget {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #edf1ef;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(7, 41, 31, 0.07);
+  padding: 18px;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+
+  .widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #edf1ef;
+
+    h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 900;
+      color: #111827;
+    }
+
+    .timeframe-selector {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+
+      .timeframe-btn {
+        height: 28px;
+        padding: 0 11px;
+        border: 1px solid #dfe6e3;
+        background: #ffffff;
+        color: #6f827b;
+        font-size: 12px;
+        font-weight: 900;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &.active {
+          background: #c97843;
+          border-color: #c97843;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+
+  .loading {
+    padding: 20px;
+    text-align: center;
+    color: #7d8d86;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .sector-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .sector-row {
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: #fbfbfb;
+    border: 1px solid #ececec;
+
+    .sector-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .sector-name {
+      font-size: 17px;
+      font-weight: 900;
+      color: #111827;
+    }
+
+    .sector-target {
+      font-size: 14px;
+      font-weight: 900;
+      color: #6b7280;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .sector-achieved {
+      margin-bottom: 10px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #4b5563;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .sector-bar {
+      width: 100%;
+      height: 9px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .sector-fill {
+      height: 100%;
+      border-radius: inherit;
+      transition: width 0.35s ease;
+    }
+
+    .sector-percent {
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    &.retail {
+      .sector-fill { background: #3b82f6; }
+      .sector-percent { color: #2563eb; }
+    }
+
+    &.hospital {
+      .sector-fill { background: #22c55e; }
+      .sector-percent { color: #15803d; }
+    }
+
+    &.cosmetics {
+      .sector-fill { background: #f59e0b; }
+      .sector-percent { color: #d97706; }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .dchl-widget {
+    padding: 14px;
+
+    .widget-header {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .timeframe-selector {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+
+        .timeframe-btn {
+          width: 100%;
+        }
+      }
+    }
+
+    .sector-row {
+      padding: 14px;
+
+      .sector-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      .sector-target {
+        text-align: left;
+      }
+    }
+  }
+}

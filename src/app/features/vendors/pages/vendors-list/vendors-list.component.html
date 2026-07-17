@@ -5,7 +5,8 @@
       <input 
         type="text" 
         placeholder="Search vendors..."
-        (input)="onSearch($event)"
+        [(ngModel)]="searchQuery"
+        (input)="filterVendors()"
         class="search-input">
       <span class="search-icon">🔍</span>
     </div>
@@ -14,22 +15,19 @@
   <div class="vendors-grid">
     <div class="vendor-card" *ngFor="let vendor of filteredVendors">
       <div class="card-header">
-        <span class="vendor-logo">{{ vendor.logo }}</span>
-        <h3 class="vendor-name">{{ vendor.name }}</h3>
+        <span class="vendor-logo">📦</span>
+        <h3 class="vendor-name">{{ vendor.vendorName }}</h3>
       </div>
 
       <div class="card-body">
         <div class="stat-row">
-          <span class="stat-label">Sales:</span>
-          <span class="stat-value">{{ formatNumber(vendor.sales) }}</span>
+          <span class="stat-label">Total Sales:</span>
+          <span class="stat-value">{{ vendor.value | number }}</span>
         </div>
+
         <div class="stat-row">
-          <span class="stat-label">Target:</span>
-          <span class="stat-value">{{ formatNumber(vendor.target) }}</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Achieved:</span>
-          <span class="stat-value success">{{ vendor.achievedPercentage }}%</span>
+          <span class="stat-label">Material Group:</span>
+          <span class="stat-value">{{ vendor.materialGroup }}</span>
         </div>
       </div>
 
@@ -37,7 +35,7 @@
         <div class="progress-bar">
           <div 
             class="progress-fill" 
-            [style.width.%]="vendor.achievedPercentage">
+            [style.width.%]="getPercentage(vendor.value)">
           </div>
         </div>
       </div>

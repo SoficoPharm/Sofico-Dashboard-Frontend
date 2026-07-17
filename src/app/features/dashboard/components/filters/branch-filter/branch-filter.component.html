@@ -2,17 +2,32 @@
   <label class="branch-label">
     🏢 Branch:
   </label>
+  
+  <!-- ✅ Loading State -->
+  <div *ngIf="isLoading" class="branch-loading">
+    <span class="spinner"></span>
+    <span>Loading...</span>
+  </div>
+
+  <!-- ✅ Error State -->
+  <div *ngIf="error && !isLoading" class="branch-error">
+    <span>⚠️ {{ error }}</span>
+    <button class="retry-btn" (click)="loadBranches()">Retry</button>
+  </div>
+
+  <!-- ✅ Branch Select - ONLY BRANCH NAME -->
   <select 
+    *ngIf="!isLoading && !error"
     class="branch-select"
-    [value]="selectedBranchId || 'all'"
+    [value]="selectedBranchCode || 'all'"
     (change)="onBranchChange($event)"
   >
-    <option value="all">All Branches</option>
+    <option value="all">All Branches Today</option>
     <option 
       *ngFor="let branch of branches" 
-      [value]="branch.id"
+      [value]="branch.branchCode"
     >
-      {{ branch.name }}
+      {{ branch.branchName }}
     </option>
   </select>
 </div>

@@ -5,7 +5,8 @@
       <input 
         type="text" 
         placeholder="Search items..."
-        (input)="onSearch($event)"
+        [(ngModel)]="searchQuery"
+        (input)="filterItems()"
         class="search-input">
       <span class="search-icon">🔍</span>
     </div>
@@ -14,25 +15,14 @@
   <div class="items-grid">
     <div class="item-card" *ngFor="let item of filteredItems">
       <div class="card-header">
-        <span class="item-logo">{{ item.logo }}</span>
-        <div class="item-info">
-          <h3 class="item-name">{{ item.name }}</h3>
-          <span class="item-category">{{ item.category }}</span>
-        </div>
+        <span class="item-logo">📦</span>
+        <h3 class="item-name">{{ item.itemName }}</h3>
       </div>
 
       <div class="card-body">
         <div class="stat-row">
-          <span class="stat-label">Sales:</span>
-          <span class="stat-value">{{ formatNumber(item.sales) }}</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Target:</span>
-          <span class="stat-value">{{ formatNumber(item.target) }}</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Achieved:</span>
-          <span class="stat-value success">{{ item.achievedPercentage }}%</span>
+          <span class="stat-label">Total Sales:</span>
+          <span class="stat-value">{{ item.value | number }}</span>
         </div>
       </div>
 
@@ -40,7 +30,7 @@
         <div class="progress-bar">
           <div 
             class="progress-fill" 
-            [style.width.%]="item.achievedPercentage">
+            [style.width.%]="getPercentage(item.value)">
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -9,9 +9,16 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './date-filter.component.html',
   styleUrls: ['./date-filter.component.scss']
 })
-export class DateFilterComponent {
+export class DateFilterComponent implements OnInit {
   @Input() selectedDate: Date = new Date();
   @Output() dateChange = new EventEmitter<Date>();
+
+  ngOnInit(): void {
+    // ✅ Ensure date is initialized correctly
+    if (!this.selectedDate) {
+      this.selectedDate = new Date();
+    }
+  }
 
   onDateChange(event: any): void {
     const newDate = new Date(event.target.value);
@@ -19,8 +26,11 @@ export class DateFilterComponent {
     this.dateChange.emit(newDate);
   }
 
-  // Format date for input[type="date"]
+  // ✅ Format date for input[type="date"] (YYYY-MM-DD)
   get formattedDate(): string {
-    return this.selectedDate.toISOString().split('T')[0];
+    const year = this.selectedDate.getFullYear();
+    const month = String(this.selectedDate.getMonth() + 1).padStart(2, '0');
+    const day = String(this.selectedDate.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 }

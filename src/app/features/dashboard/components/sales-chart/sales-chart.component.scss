@@ -1,117 +1,234 @@
 .sales-chart-container {
-  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: #ffffff;
+  border: 1px solid #e9efec;
+  border-radius: 14px;
+  padding: 18px 20px 14px;
+  box-shadow: 0 10px 28px rgba(7, 41, 31, 0.08);
+  font-family: Arial, sans-serif;
 
   .chart-header {
     display: flex;
+    align-items: flex-start;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
     gap: 16px;
-
-    .chart-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-
-      h3 {
-        margin: 0;
-        font-size: 18px;
-        font-weight: 600;
-        color: #fff;
-      }
-
-      .icon {
-        font-size: 24px;
-      }
-    }
-
-    .chart-controls {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-  }
-
-  // ✅ Notification Style
-  .filter-notification {
-    background: rgba(251, 191, 36, 0.2);
-    border: 1px solid rgba(251, 191, 36, 0.4);
-    color: #fff;
-    padding: 10px 16px;
-    border-radius: 6px;
-    font-size: 13px;
     margin-bottom: 12px;
-    animation: slideDown 0.3s ease;
+  }
 
-    strong {
+  .chart-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    .icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: #fff4ed;
+      color: #c97843;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    h3 {
+      margin: 0;
+      color: #06291f;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    p {
+      margin: 4px 0 0;
+      color: #8a9a94;
+      font-size: 12px;
       font-weight: 600;
-      text-decoration: underline;
     }
   }
 
-  @keyframes slideDown {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .last-sync {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 16px;
-    font-weight: 500;
+  .chart-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
   }
 
   .chart-wrapper {
-    background: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    height: 400px;
-    margin-bottom: 16px;
+    height: 285px;
+    padding: 8px 4px 0;
+    margin-top: 4px;
+    border-radius: 10px;
+    background: #ffffff;
+    overflow: hidden;
+
     display: flex;
     align-items: center;
     justify-content: center;
 
-    .empty-state {
-      text-align: center;
-      color: #999;
-      font-size: 16px;
-      font-weight: 500;
+    app-line-chart {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
 
-      p {
-        margin: 0;
+    .empty-state {
+      color: #8a9a94;
+      font-size: 14px;
+      font-weight: 700;
+    }
+  }
+
+  .chart-summary {
+    display: flex;
+    align-items: flex-start;
+    gap: 42px;
+    padding: 12px 0 0;
+    border-top: 1px solid #edf1ef;
+
+    .summary-item {
+      min-width: 150px;
+
+      span {
+        display: block;
+        margin-bottom: 5px;
+        color: #8a9a94;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      strong {
+        display: block;
+        color: #06291f;
+        font-size: 15px;
+        font-weight: 900;
+      }
+
+      &.achievement {
+        strong {
+          color: #c97843;
+        }
+      }
+    }
+
+    .mini-progress {
+      width: 86px;
+      height: 6px;
+      margin-top: 7px;
+      border-radius: 999px;
+      background: #f0e2d8;
+      overflow: hidden;
+
+      i {
+        display: block;
+        height: 100%;
+        max-width: 100%;
+        border-radius: inherit;
+        background: #c97843;
+      }
+    }
+  }
+}
+
+/* Child filter components theme */
+.sales-chart-container {
+  ::ng-deep {
+    button,
+    select,
+    input {
+      height: 32px !important;
+      min-height: 32px !important;
+      border-radius: 7px !important;
+      border: 1px solid #dfe6e3 !important;
+      background: #f7faf8 !important;
+      color: #6f827b !important;
+      padding: 0 12px !important;
+      font-size: 12px !important;
+      font-weight: 800 !important;
+      font-family: Arial, sans-serif !important;
+      box-shadow: none !important;
+    }
+
+    button:hover {
+      border-color: #c97843 !important;
+      color: #c97843 !important;
+      background: #fff8f3 !important;
+    }
+
+    .active,
+    .selected,
+    button.active {
+      background: #c97843 !important;
+      border-color: #c97843 !important;
+      color: #ffffff !important;
+      box-shadow: 0 5px 12px rgba(201, 120, 67, 0.22) !important;
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .sales-chart-container {
+    .chart-header {
+      flex-direction: column;
+    }
+
+    .chart-controls {
+      justify-content: flex-start;
+      width: 100%;
+    }
+
+    .chart-wrapper {
+      height: 270px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .sales-chart-container {
+    padding: 14px;
+
+    .chart-wrapper {
+      height: 250px;
+    }
+
+    .chart-summary {
+      gap: 14px;
+      flex-wrap: wrap;
+
+      .summary-item {
+        flex: 1 1 100%;
       }
     }
   }
 
-  .chart-legend {
-    display: flex;
-    gap: 24px;
-    justify-content: center;
+  .sales-chart-container ::ng-deep {
+    app-period-filter,
+    app-year-filter,
+    app-date-filter,
+    app-branch-filter,
+    app-search-filter {
+      width: 100%;
+    }
 
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      color: #fff;
-      font-weight: 500;
+    button,
+    select,
+    input {
+      width: 100% !important;
+    }
+  }
+}
 
-      .legend-color {
-        width: 12px;
-        height: 12px;
-        border-radius: 2px;
-      }
+@media (max-width: 480px) {
+  .sales-chart-container {
+    .chart-wrapper {
+      height: 220px;
+    }
+
+    .chart-title h3 {
+      font-size: 15px;
     }
   }
 }

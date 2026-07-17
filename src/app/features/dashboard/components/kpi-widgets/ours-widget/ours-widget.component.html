@@ -1,14 +1,15 @@
+<!-- In ours-widget.component.html -->
+
 <div class="ours-widget">
-   <!-- Header with Timeframe -->
+  <!-- Header -->
   <div class="widget-header">
     <div class="widget-title">
       <span class="icon">📊</span>
-      <h3>Ours</h3>
+      <h3>Vendors</h3>
     </div>
-    
-    <!-- Timeframe Selector -->
+
     <div class="timeframe-selector">
-      <button 
+      <button
         *ngFor="let tf of timeframes"
         class="timeframe-btn"
         [class.active]="selectedTimeframe === tf"
@@ -18,35 +19,73 @@
     </div>
   </div>
 
-  <!-- Donut Chart -->
-  <div class="chart-container">
-    <canvas #donutCanvas></canvas>
+  <!-- Summary Cards — same style as client-item stats -->
+  <div class="summary-cards" *ngIf="hasData && !loading">
+    <div class="summary-card">
+      <span class="summary-label">Total Clients</span>
+      <span class="summary-value">{{ totalClients | number }}</span>
+    </div>
+
+    <div class="summary-card">
+      <span class="summary-label">Total Value</span>
+      <span class="summary-value">{{ totalValue | number:'1.2-2' }}</span>
+    </div>
+
+    <div class="summary-card">
+      <span class="summary-label">Total %</span>
+      <span class="summary-value">{{ totalPercentage | number:'1.2-2' }}%</span>
+    </div>
   </div>
 
-  <!-- Client List -->
-  <div class="clients-list">
-    <div 
-      *ngFor="let client of clients" 
-      class="client-item"
-    >
-      <div class="client-header">
-        <span class="client-color" [style.background]="client.color"></span>
-        <span class="client-name">{{ client.name }}</span>
-      </div>
-      <div class="client-stats">
-        <div class="stat">
-          <span class="stat-label">Client</span>
-          <span class="stat-value">{{ client.clientCount }}</span>
-        </div>
-        <div class="stat">
-          <span class="stat-label">Value</span>
-          <span class="stat-value">{{ formatNumber(client.value) }}</span>
-        </div>
-        <div class="stat">
-          <span class="stat-label">%</span>
-          <span class="stat-value">{{ client.percentage }}</span>
-        </div>
-      </div>
+  <!-- Chart -->
+  <div class="chart-container">
+    <canvas #donutCanvas></canvas>
+
+    <div class="chart-loading" *ngIf="loading">
+      <span class="spinner big"></span>
     </div>
+  </div>
+
+  <!-- List -->
+  <div class="clients-list">
+    <ng-container *ngIf="!loading; else loadingTpl">
+      <ng-container *ngIf="hasData; else noDataTpl">
+        <div *ngFor="let client of clientsVM" class="client-item">
+          <div class="client-header">
+            <span class="client-color" [style.background]="client.color"></span>
+            <span class="client-name">{{ client.name }}</span>
+          </div>
+
+          <div class="client-stats">
+            <div class="stat">
+              <span class="stat-label">Client</span>
+              <span class="stat-value">{{ client.clientCount }}</span>
+            </div>
+
+            <div class="stat">
+              <span class="stat-label">Value</span>
+              <span class="stat-value">{{ formatNumber(client.value) }}</span>
+            </div>
+
+            <div class="stat">
+              <span class="stat-label">%</span>
+              <span class="stat-value">{{ client.percentage | number:'1.0-2' }}%</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #loadingTpl>
+      <div class="client-item center">
+        <span class="spinner"></span>
+      </div>
+    </ng-template>
+
+    <ng-template #noDataTpl>
+      <div class="client-item center">
+        No Data
+      </div>
+    </ng-template>
   </div>
 </div>

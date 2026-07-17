@@ -1,0 +1,459 @@
+.vendor-analysis-widget {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #edf1ef;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 10px 24px rgba(7, 41, 31, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.widget-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 900;
+  color: #1f2937;
+  margin: 0;
+
+  i { font-size: 18px; color: #c97843; }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.timeframe-selector {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+
+  .timeframe-btn {
+    height: 30px;
+    padding: 0 12px;
+    border: 1px solid #dfe6e3;
+    background: #ffffff;
+    color: #6f827b;
+    font-size: 12px;
+    font-weight: 900;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: 0.2s ease;
+
+    &:hover {
+      border-color: #c97843;
+      color: #c97843;
+      background: #fff8f3;
+    }
+
+    &.active {
+      background: #c97843 !important;
+      border-color: #c97843 !important;
+      color: #ffffff !important;
+    }
+  }
+}
+
+.results-summary {
+  font-size: 12.5px;
+  color: #6f827b;
+  font-weight: 800;
+  white-space: nowrap;
+  padding: 0 4px;
+
+  strong { color: #c97843; font-size: 13.5px; }
+}
+
+.export-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 16px;
+  background: linear-gradient(135deg, #c97843 0%, #b5652f 100%);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: 0.2s ease;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(201, 120, 67, 0.3);
+
+  i { font-size: 15px; }
+  .ti-spin { animation: spin 0.8s linear infinite; }
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #b5652f 0%, #9c5527 100%);
+    box-shadow: 0 6px 14px rgba(201, 120, 67, 0.4);
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    background: #d1d5db;
+    color: #9ca3af;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+.export-error {
+  font-size: 11.5px;
+  color: #dc2626;
+  margin: 0;
+  font-weight: 700;
+}
+
+.loading-state,
+.error-state,
+.empty-state {
+  text-align: center;
+  padding: 30px 12px;
+  color: #6f827b;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  margin: 0 auto 12px;
+  border: 3px solid #edf1ef;
+  border-top-color: #c97843;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.retry-btn {
+  height: 32px;
+  padding: 0 14px;
+  background: #c97843;
+  color: #ffffff;
+  border: 0;
+  border-radius: 6px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.analysis-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.chart-card {
+  background: #fafcfb;
+  border: 1px solid #edf1ef;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.chart-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 14px;
+
+  h4 {
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 900;
+    color: #1f2937;
+  }
+
+  .chart-subtitle {
+    font-size: 11px;
+    color: #9ca3af;
+    font-weight: 700;
+  }
+}
+
+// ===== Comparison card header (with Total Value badge) =====
+// Combined selector ".chart-card-header.comparison-header" is used so this
+// always wins over the plain ".chart-card-header" column layout above,
+// regardless of source order or specificity ties.
+.chart-card-header.comparison-header {
+  flex-direction: row !important;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 16px;
+}
+
+.comparison-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.total-value-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.total-value-label {
+  font-size: 10px;
+  font-weight: 800;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.total-value-amount {
+  font-size: 16px;
+  font-weight: 900;
+  color: #c97843;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .chart-card-header.comparison-header {
+    flex-direction: column !important;
+    align-items: flex-start;
+  }
+
+  .total-value-badge {
+    align-items: flex-start;
+  }
+}
+
+// ===== Shared bar styles =====
+
+.bar-track {
+  flex: 1;
+  height: 14px;
+  background: #edf1ef;
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 80px;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #c97843 0%, #e0975f 100%);
+  transition: width 0.4s ease;
+}
+
+.pct-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: #fff4ec;
+  color: #c97843;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 900;
+  white-space: nowrap;
+
+  &.small {
+    font-size: 10px;
+    padding: 1px 6px;
+  }
+}
+
+.sales-value {
+  font-weight: 900;
+  color: #1f2937;
+  font-size: 12.5px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+// ===== Comparison chart =====
+
+.comparison-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comparison-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 160px;
+  align-items: center;
+  gap: 12px;
+}
+
+.comparison-label {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+
+  .vendor-name {
+    font-size: 12.5px;
+    font-weight: 900;
+    color: #1f2937;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .vendor-code {
+    font-size: 10.5px;
+    color: #9ca3af;
+    font-weight: 700;
+  }
+}
+
+.comparison-values {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+// ===== Per-vendor grid =====
+
+.vendor-charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 16px;
+}
+
+.vendor-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid #edf1ef;
+  box-shadow: 0 4px 12px rgba(7, 41, 31, 0.05);
+}
+
+// ===== Area bars: no scroll by default, scroll only when > 15 rows =====
+
+.area-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &.scrollable {
+    max-height: calc(15 * 28px + 14 * 8px); // 15 rows + 14 gaps between them
+    overflow-y: auto;
+    padding-right: 4px; // room for the scrollbar so bars don't get clipped
+
+    // Sofico-themed scrollbar
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background: #f3f5f4;
+      border-radius: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #c97843;
+      border-radius: 8px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: #b5652f;
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: #c97843 #f3f5f4;
+  }
+}
+
+.area-row {
+  height: 28px;
+  display: grid;
+  grid-template-columns: 110px 1fr 90px;
+  align-items: center;
+  gap: 10px;
+}
+
+.area-label {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #4b5563;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.area-fill {
+  background: linear-gradient(90deg, #d97706 0%, #f0ad5f 100%);
+}
+
+.area-values {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+
+  .sales-value { font-size: 11.5px; }
+}
+
+.vendor-footer {
+  display: flex;
+  gap: 16px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #f1f1ef;
+}
+
+.footer-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  .stat-label {
+    font-size: 10px;
+    color: #9ca3af;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .stat-value {
+    font-size: 13px;
+    font-weight: 900;
+    color: #1f2937;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .vendor-analysis-widget {
+    padding: 14px;
+  }
+
+  .comparison-row {
+    grid-template-columns: 110px 1fr 110px;
+    gap: 8px;
+  }
+
+  .area-row {
+    grid-template-columns: 80px 1fr 70px;
+    gap: 6px;
+  }
+
+  .vendor-charts-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,146 @@
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+  min-width: 0;
+}
+
+.kpi-card {
+  background: #ffffff;
+  border: 1px solid #edf1ef;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 10px 24px rgba(7, 41, 31, 0.07);
+  box-sizing: border-box;
+  overflow: hidden;
+  height: 100%;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #edf1ef;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-icon {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: #fff4ed;
+  font-size: 14px;
+}
+
+.card-title h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 900;
+  color: #6f827b;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+/* =========================
+   BODY
+========================= */
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+.kpi-section {
+  padding-bottom: 14px;
+  border-bottom: 1px solid #edf1ef;
+
+  &:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+.section-title {
+  margin: 0 0 10px;
+  color: #6f827b;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+/* =========================
+   MAIN NUMBER
+========================= */
+
+.main-metric {
+  margin-bottom: 4px;
+}
+
+.main-label {
+  display: block;
+  color: #6f827b;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.main-metric strong {
+  display: block;
+  color: #06291f;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* =========================
+   ITEMS
+========================= */
+
+.section-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.kpi-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.item-label {
+  color: #6f827b;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.item-value {
+  color: #111827;
+  font-size: 13px;
+  font-weight: 900;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}

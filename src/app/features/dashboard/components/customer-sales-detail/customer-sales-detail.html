@@ -1,0 +1,498 @@
+<div class="customer-detail-widget">
+
+  <div class="widget-header">
+    <h3 class="widget-title">
+      <i class="ti ti-table" aria-hidden="true"></i>
+      Customer Sales Detail
+    </h3>
+
+<div class="header-actions">
+
+  <div class="timeframe-selector" *ngIf="dashboardFilter?.mode !== 'month' && dashboardFilter?.mode !== 'range'">
+    <button
+      *ngFor="let tf of timeframes"
+      class="timeframe-btn"
+      [class.active]="selectedTimeframe === tf"
+      (click)="onTimeframeChange(tf)">
+      {{ tf }}
+    </button>
+  </div>
+
+  <button
+    type="button"
+    class="clear-filters-btn"
+    *ngIf="hasActiveFilters"
+    (click)="clearFilters()">
+    <i class="ti ti-filter-x" aria-hidden="true"></i>
+    Clear Filters
+  </button>
+
+  <div class="results-summary">
+    Results: <strong>{{ formatNumber(totalRecords) }}</strong>
+  </div>
+
+  <!-- Export Section -->
+  <div class="export-wrapper">
+
+    <button
+      type="button"
+      class="export-btn"
+      [disabled]="!canExport || isExporting"
+      (click)="onExportClick()">
+
+      <span *ngIf="!isExporting">
+        <i class="ti ti-file-spreadsheet" aria-hidden="true"></i>
+        Export Customer Sales Details to Excel
+      </span>
+
+      <span *ngIf="isExporting">
+        <i class="ti ti-loader-2 ti-spin" aria-hidden="true"></i>
+        Exporting...
+      </span>
+
+    </button>
+
+    <p class="export-hint" *ngIf="!canExport">
+      Select a Monthly or Date Range filter to enable export.
+    </p>
+
+  </div>
+
+</div>
+    
+  </div>
+
+ 
+  <p class="export-error" *ngIf="exportError">
+    {{ exportError }}
+  </p>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading report...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-state" *ngIf="errorMessage && !isLoading">
+    <p>❌ {{ errorMessage }}</p>
+    <button class="retry-btn" (click)="loadData()">Retry</button>
+  </div>
+
+  <!-- Table -->
+  <div class="table-scroll" *ngIf="!isLoading && !errorMessage">
+    <table class="detail-table" *ngIf="rows.length > 0 || hasActiveFilters; else emptyState">
+      <thead>
+        <tr>
+          <!-- Site -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('site')">Branchs<i class="ti" [ngClass]="sortIcon('site')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('site')" (click)="toggleFilterPopup('site', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup" *ngIf="activeFilterColumn === 'site'">
+              <input type="text" appAutofocus placeholder="Filter Site..." [(ngModel)]="filters.site" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.site" (click)="clearColumnFilter('site')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Item Code -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('itemcode')">Item Code<i class="ti" [ngClass]="sortIcon('itemcode')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('itemCode')" (click)="toggleFilterPopup('itemCode', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup" *ngIf="activeFilterColumn === 'itemCode'">
+              <input type="text" appAutofocus placeholder="Filter Item Code..." [(ngModel)]="filters.itemCode" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.itemCode" (click)="clearColumnFilter('itemCode')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Item Name -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('itemname')">Item Name<i class="ti" [ngClass]="sortIcon('itemname')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('itemName')" (click)="toggleFilterPopup('itemName', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup" *ngIf="activeFilterColumn === 'itemName'">
+              <input type="text" appAutofocus placeholder="Filter Item Name..." [(ngModel)]="filters.itemName" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.itemName" (click)="clearColumnFilter('itemName')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Vendor -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('vendor')">Vendor<i class="ti" [ngClass]="sortIcon('vendor')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('vendor')" (click)="toggleFilterPopup('vendor', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup" *ngIf="activeFilterColumn === 'vendor'">
+              <input type="text" appAutofocus placeholder="Filter Vendor..." [(ngModel)]="filters.vendor" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.vendor" (click)="clearColumnFilter('vendor')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Customer Code -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('customercode')">Customer Code<i class="ti" [ngClass]="sortIcon('customercode')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('customerCode')" (click)="toggleFilterPopup('customerCode', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup" *ngIf="activeFilterColumn === 'customerCode'">
+              <input type="text" appAutofocus placeholder="Filter Customer Code..." [(ngModel)]="filters.customerCode" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.customerCode" (click)="clearColumnFilter('customerCode')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Customer Name -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('customername')">Customer Name<i class="ti" [ngClass]="sortIcon('customername')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('customerName')" (click)="toggleFilterPopup('customerName', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup" *ngIf="activeFilterColumn === 'customerName'">
+              <input type="text" appAutofocus placeholder="Filter Customer Name..." [(ngModel)]="filters.customerName" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.customerName" (click)="clearColumnFilter('customerName')">Clear</button>
+            </div>
+          </th>
+
+          <!-- State -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('state')">District Code<i class="ti" [ngClass]="sortIcon('state')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('state')" (click)="toggleFilterPopup('state', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup" *ngIf="activeFilterColumn === 'state'">
+              <input type="text" appAutofocus placeholder="Filter State..." [(ngModel)]="filters.state" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.state" (click)="clearColumnFilter('state')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Zip Code -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('zipcode')">District Name<i class="ti" [ngClass]="sortIcon('zipcode')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('zipCode')" (click)="toggleFilterPopup('zipCode', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup" *ngIf="activeFilterColumn === 'zipCode'">
+              <input type="text" appAutofocus placeholder="Filter Zip Code..." [(ngModel)]="filters.zipCode" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.zipCode" (click)="clearColumnFilter('zipCode')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Address -->
+          <th>
+            <div class="th-inner">
+              <span class="no-sort">Address</span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('address')" (click)="toggleFilterPopup('address', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup" *ngIf="activeFilterColumn === 'address'">
+              <input type="text" appAutofocus placeholder="Filter Address..." [(ngModel)]="filters.address" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.address" (click)="clearColumnFilter('address')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Sales Qty -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('salesqty')">Sales Qty<i class="ti" [ngClass]="sortIcon('salesqty')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('salesQtyMin','salesQtyMax')" (click)="toggleFilterPopup('salesQty', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup range-popup" *ngIf="activeFilterColumn === 'salesQty'">
+              <input type="number" appAutofocus placeholder="Min" [(ngModel)]="filters.salesQtyMin" (ngModelChange)="onFilterChange()" />
+              <input type="number" placeholder="Max" [(ngModel)]="filters.salesQtyMax" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.salesQtyMin || filters.salesQtyMax" (click)="clearColumnFilter('salesQtyMin','salesQtyMax')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Bonus Qty -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('bonusqty')">Bonus Qty<i class="ti" [ngClass]="sortIcon('bonusqty')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('bonusQtyMin','bonusQtyMax')" (click)="toggleFilterPopup('bonusQty', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup range-popup" *ngIf="activeFilterColumn === 'bonusQty'">
+              <input type="number" appAutofocus placeholder="Min" [(ngModel)]="filters.bonusQtyMin" (ngModelChange)="onFilterChange()" />
+              <input type="number" placeholder="Max" [(ngModel)]="filters.bonusQtyMax" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.bonusQtyMin || filters.bonusQtyMax" (click)="clearColumnFilter('bonusQtyMin','bonusQtyMax')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Sales Return -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('salesreturn')">Sales Return<i class="ti" [ngClass]="sortIcon('salesreturn')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('salesReturnQtyMin','salesReturnQtyMax')" (click)="toggleFilterPopup('salesReturn', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup range-popup" *ngIf="activeFilterColumn === 'salesReturn'">
+              <input type="number" appAutofocus placeholder="Min" [(ngModel)]="filters.salesReturnQtyMin" (ngModelChange)="onFilterChange()" />
+              <input type="number" placeholder="Max" [(ngModel)]="filters.salesReturnQtyMax" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.salesReturnQtyMin || filters.salesReturnQtyMax" (click)="clearColumnFilter('salesReturnQtyMin','salesReturnQtyMax')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Bonus Return -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('bonusreturn')">Bonus Return<i class="ti" [ngClass]="sortIcon('bonusreturn')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('bonusReturnQtyMin','bonusReturnQtyMax')" (click)="toggleFilterPopup('bonusReturn', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup range-popup" *ngIf="activeFilterColumn === 'bonusReturn'">
+              <input type="number" appAutofocus placeholder="Min" [(ngModel)]="filters.bonusReturnQtyMin" (ngModelChange)="onFilterChange()" />
+              <input type="number" placeholder="Max" [(ngModel)]="filters.bonusReturnQtyMax" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.bonusReturnQtyMin || filters.bonusReturnQtyMax" (click)="clearColumnFilter('bonusReturnQtyMin','bonusReturnQtyMax')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Invoice -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('invoiceid')">Invoice<i class="ti" [ngClass]="sortIcon('invoiceid')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('invoiceId')" (click)="toggleFilterPopup('invoiceId', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup" *ngIf="activeFilterColumn === 'invoiceId'">
+              <input type="text" appAutofocus placeholder="Filter Invoice..." [(ngModel)]="filters.invoiceId" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.invoiceId" (click)="clearColumnFilter('invoiceId')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Invoice Amount -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('invoiceamount')">Invoice Amount<i class="ti" [ngClass]="sortIcon('invoiceamount')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('invoiceAmountMin','invoiceAmountMax')" (click)="toggleFilterPopup('invoiceAmount', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup range-popup" *ngIf="activeFilterColumn === 'invoiceAmount'">
+              <input type="number" appAutofocus placeholder="Min" [(ngModel)]="filters.invoiceAmountMin" (ngModelChange)="onFilterChange()" />
+              <input type="number" placeholder="Max" [(ngModel)]="filters.invoiceAmountMax" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.invoiceAmountMin || filters.invoiceAmountMax" (click)="clearColumnFilter('invoiceAmountMin','invoiceAmountMax')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Invoice Date -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('invoicedate')">Invoice Date<i class="ti" [ngClass]="sortIcon('invoicedate')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('invoiceDateFrom','invoiceDateTo')" (click)="toggleFilterPopup('invoiceDate', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup range-popup date-popup" *ngIf="activeFilterColumn === 'invoiceDate'">
+              <label>From</label>
+              <input type="date" appAutofocus [(ngModel)]="filters.invoiceDateFrom" (ngModelChange)="onFilterChange()" />
+              <label>To</label>
+              <input type="date" [(ngModel)]="filters.invoiceDateTo" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.invoiceDateFrom || filters.invoiceDateTo" (click)="clearColumnFilter('invoiceDateFrom','invoiceDateTo')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Batch -->
+          <th>
+            <div class="th-inner">
+              <span class="no-sort">Batch</span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('batch')" (click)="toggleFilterPopup('batch', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup" *ngIf="activeFilterColumn === 'batch'">
+              <input type="text" appAutofocus placeholder="Filter Batch..." [(ngModel)]="filters.batch" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.batch" (click)="clearColumnFilter('batch')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Line Value -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('linevalue')">Line Value<i class="ti" [ngClass]="sortIcon('linevalue')"></i></span>
+            </div>
+          </th>
+
+          <!-- Month -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('month')">Month<i class="ti" [ngClass]="sortIcon('month')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('rowMonth')" (click)="toggleFilterPopup('rowMonth', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup" *ngIf="activeFilterColumn === 'rowMonth'">
+              <input type="number" appAutofocus min="1" max="12" placeholder="1-12" [(ngModel)]="filters.rowMonth" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.rowMonth" (click)="clearColumnFilter('rowMonth')">Clear</button>
+            </div>
+          </th>
+
+          <!-- Year -->
+          <th>
+            <div class="th-inner">
+              <span (click)="onSort('year')">Year<i class="ti" [ngClass]="sortIcon('year')"></i></span>
+              <button type="button" class="filter-icon-btn" [class.active]="isColumnFiltered('rowYear')" (click)="toggleFilterPopup('rowYear', $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+              </button>
+            </div>
+            <div class="filter-popup" *ngIf="activeFilterColumn === 'rowYear'">
+              <input type="number" appAutofocus placeholder="e.g. 2026" [(ngModel)]="filters.rowYear" (ngModelChange)="onFilterChange()" />
+              <button type="button" class="popup-clear" *ngIf="filters.rowYear" (click)="clearColumnFilter('rowYear')">Clear</button>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of rows">
+          <td>{{ row.inventSiteId }}</td>
+          <td>{{ row.itemId }}</td>
+          <td>{{ row.itemName }}</td>
+          <td>{{ row.vendorId }}</td>
+          <td>{{ row.orderAccount }}</td>
+          <td>{{ row.customerName }}</td>
+          <td>{{ row.partyState }}</td>
+          <td>{{ row.zipCode }}</td>
+          <td class="address-cell">{{ row.address }}</td>
+          <td class="num-cell">{{ formatNumber(row.salesQty) }}</td>
+          <td class="num-cell">{{ formatNumber(row.bonusQty) }}</td>
+          <td class="num-cell">{{ formatNumber(row.salesReturnQty) }}</td>
+          <td class="num-cell">{{ formatNumber(row.bonusReturnQty) }}</td>
+          <td>{{ row.invoiceId }}</td>
+          <td class="num-cell">{{ formatNumber(row.invoiceAmount) }}</td>
+          <td>{{ row.invoiceDate | date: 'yyyy-MM-dd' }}</td>
+          <td>{{ row.batch }}</td>
+          <td class="num-cell">{{ formatNumber(row.lineValue) }}</td>
+          <td>{{ row.salesMonth }}</td>
+          <td>{{ row.salesYear }}</td>
+        </tr>
+
+        <tr *ngIf="rows.length === 0">
+          <td colspan="20" class="no-results-cell">📭 No records match the current filters</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <p>📭 No records found for the selected period</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination-bar" *ngIf="!isLoading && !errorMessage && rows.length > 0">
+    <div class="page-size-selector">
+      <span>Results per page:</span>
+      <select [ngModel]="pageSize" (ngModelChange)="onPageSizeChange($event)">
+        <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+      </select>
+    </div>
+
+    <div class="page-nav">
+      <button type="button" class="nav-arrow" [disabled]="currentPage === 1" (click)="goToPage(1)">
+        <i class="ti ti-chevrons-left" aria-hidden="true"></i>
+      </button>
+      <button type="button" class="nav-arrow" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">
+        <i class="ti ti-chevron-left" aria-hidden="true"></i>
+      </button>
+
+      <button
+        type="button"
+        *ngFor="let p of pageNumbers"
+        class="page-circle"
+        [class.active]="p === currentPage"
+        (click)="goToPage(p)">
+        {{ p }}
+      </button>
+
+      <button type="button" class="nav-arrow" [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">
+        <i class="ti ti-chevron-right" aria-hidden="true"></i>
+      </button>
+      <button type="button" class="nav-arrow" [disabled]="currentPage === totalPages" (click)="goToPage(totalPages)">
+        <i class="ti ti-chevrons-right" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+
+</div>

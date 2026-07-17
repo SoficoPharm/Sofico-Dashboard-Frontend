@@ -1,68 +1,85 @@
 <div class="login-container">
+<div class="brand-top">
+  <img src="/logoSoficoPharam.png" class="brand-logo" alt="Soficopharm" />
+  <h1>SOFICOPHARM</h1>
+  <p class="bold">Sofico Dashboard</p>
+</div>
+
   <div class="login-card">
-    <!-- Logo -->
     <div class="login-header">
-      <img src="\logoSoficoPharam.png" alt="Sofico Pharm" class="login-logo">
-      <h1>SOFICO</h1>
-      <p>Sign in to your account</p>
+      <h2>Sign in</h2>
+      <p>Enter your username and password .</p>
     </div>
 
-    <!-- Login Form -->
     <form class="login-form" (ngSubmit)="onLogin()">
-      <!-- Email -->
       <div class="form-group">
-        <label for="email">Email</label>
-        <input 
-          type="email" 
-          id="email" 
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
           class="form-input"
-          placeholder="Enter your email"
-          [(ngModel)]="email"
-          name="email"
+          placeholder="Enter your username"
+          [(ngModel)]="username"
+          name="username"
+          [disabled]="isLoading"
           required
-        >
+        />
       </div>
 
-      <!-- Password -->
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input 
-          type="password" 
-          id="password" 
+      <div class="form-group password-row">
+        <div class="label-row">
+          <label for="password">Password</label>
+          <span>Forgot password?</span>
+        </div>
+
+        <input
+          type="password"
+          id="password"
           class="form-input"
           placeholder="••••••••"
           [(ngModel)]="password"
           name="password"
+          [disabled]="isLoading"
           required
-        >
+        />
       </div>
 
-      <!-- Remember Me -->
       <div class="form-options">
         <label class="checkbox-label">
-          <input 
-            type="checkbox" 
+          <input
+            type="checkbox"
             [(ngModel)]="rememberMe"
             name="rememberMe"
-          >
-          <span>Remember me</span>
+            [disabled]="isLoading"
+          />
+          <span>Remember me for 30 days</span>
         </label>
       </div>
 
-      <!-- Error Message -->
       <div class="error-message" *ngIf="errorMessage">
         {{ errorMessage }}
       </div>
 
-      <!-- Submit Button -->
-      <button type="submit" class="login-btn">
-        Sign In
+      <button type="submit" class="login-btn" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Sign in</span>
+        <span *ngIf="isLoading">Signing in...</span>
+        <span class="arrow">→</span>
       </button>
     </form>
 
-    <!-- Footer -->
+    <div class="login-divider">
+      <span></span>
+      <p>OR CONTINUE WITH</p>
+      <span></span>
+    </div>
+
+    <button type="button" class="sso-btn">
+      <span>⚿</span>
+      Sign in with SSO
+    </button>
+
     <div class="login-footer">
-      <p>© 2025 Sofico Pharm. All rights reserved.</p>
+      <p>© 2026 Soficopharm</p>
     </div>
   </div>
 </div>

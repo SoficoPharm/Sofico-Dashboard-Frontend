@@ -1,0 +1,162 @@
+<div class="vendor-analysis-widget">
+
+  <div class="widget-header">
+    <h3 class="widget-title">
+      <i class="ti ti-chart-bar" aria-hidden="true"></i>
+      Vendor Analysis
+    </h3>
+
+    <div class="header-actions">
+      <div class="timeframe-selector" *ngIf="dashboardFilter?.mode !== 'month' && dashboardFilter?.mode !== 'range'">
+        <button
+          *ngFor="let tf of timeframes"
+          class="timeframe-btn"
+          [class.active]="selectedTimeframe === tf"
+          (click)="onTimeframeChange(tf)">
+          {{ tf }}
+        </button>
+      </div>
+
+      <div class="results-summary">
+        Vendors: <strong>{{ groups.length }}</strong>
+      </div>
+
+      <button
+        type="button"
+        class="export-btn"
+        [disabled]="isExporting"
+        (click)="onExportClick()">
+        <span *ngIf="!isExporting">
+          <i class="ti ti-file-spreadsheet" aria-hidden="true"></i>
+          Export Vendor Analysis to Excel 
+        </span>
+        <span *ngIf="isExporting">
+          <i class="ti ti-loader-2 ti-spin" aria-hidden="true"></i>
+          Exporting...
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <p class="export-error" *ngIf="exportError">
+    {{ exportError }}
+  </p>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading vendor analysis...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-state" *ngIf="errorMessage && !isLoading">
+    <p>❌ {{ errorMessage }}</p>
+    <button class="retry-btn" (click)="loadData()">Retry</button>
+  </div>
+
+  <!-- Content -->
+  <div class="analysis-content" *ngIf="!isLoading && !errorMessage">
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="groups.length === 0">
+      <p>📭 No vendor data found for the selected period</p>
+    </div>
+
+    <ng-container *ngIf="groups.length > 0">
+
+      <!-- ===== Overall Comparison Chart ===== -->
+      <div class="chart-card comparison-card">
+        <div class="chart-card-header comparison-header">
+          <div class="comparison-header-left">
+            <h4>Vendors Comparison</h4>
+            <span class="chart-subtitle">All Scientific Office vendors, ranked by sales</span>
+          </div>
+
+          <!-- <div class="total-value-badge">
+            <span class="total-value-label">Total Value</span>
+            <span class="total-value-amount">{{ formatNumber(totalSelectedVendorSales) }}</span>
+          </div> -->
+        </div>
+
+        <!-- <div class="comparison-bars">
+          <div
+            class="comparison-row"
+            *ngFor="let group of groups; trackBy: trackByVendor">
+            <div class="comparison-label">
+              <span class="vendor-name">{{ group.vendorName }}</span>
+              <span class="vendor-code">{{ group.vendorCode }}</span>
+            </div>
+
+            <div class="bar-track">
+              <div
+                class="bar-fill"
+                [style.width.%]="barWidth(group.totalSales, maxVendorSales)"
+                [title]="group.vendorName + ': ' + formatNumber(group.totalSales)">
+              </div>
+            </div>
+
+            <div class="comparison-values">
+              <span class="sales-value">{{ formatNumber(group.totalSales) }}</span>
+              <span class="pct-badge">{{ formatPercentage(group.salesPercentage) }} of company</span>
+            </div>
+          </div>
+        </div> -->
+      </div>
+
+      <!-- ===== Per-Vendor Charts ===== -->
+      <div class="vendor-charts-grid">
+        <div
+          class="chart-card vendor-card"
+          *ngFor="let group of groups; trackBy: trackByVendor">
+
+          <div class="chart-card-header">
+            <h4>{{ group.vendorName }}</h4>
+            <span class="chart-subtitle">
+              {{ group.vendorCode }} &middot;
+              {{ formatNumber(group.totalSales) }} total &middot;
+              {{ formatPercentage(group.salesPercentage) }} of company
+            </span>
+          </div>
+
+          <div
+            class="area-bars"
+            [class.scrollable]="group.areas.length > 15">
+            <div
+              class="area-row"
+              *ngFor="let area of group.areas; trackBy: trackByArea">
+              <div class="area-label" [title]="areaLabel(area)">
+                {{ areaLabel(area) }}
+              </div>
+
+              <div class="bar-track">
+                <div
+                  class="bar-fill area-fill"
+                  [style.width.%]="barWidth(area.sales, group.maxAreaSales)"
+                  [title]="areaLabel(area) + ': ' + formatNumber(area.sales) + ' (' + formatPercentage(area.salesPercentage) + ' of company)'">
+                </div>
+              </div>
+
+              <div class="area-values">
+                <span class="sales-value">{{ formatNumber(area.sales) }}</span>
+                <span class="pct-badge small">{{ formatPercentage(area.salesPercentage) }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="vendor-footer">
+            <div class="footer-stat">
+              <span class="stat-label">Customers</span>
+              <span class="stat-value">{{ formatNumber(group.totalCustomers) }}</span>
+            </div>
+            <div class="footer-stat">
+              <span class="stat-label">Invoices</span>
+              <span class="stat-value">{{ formatNumber(group.totalInvoices) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </ng-container>
+  </div>
+
+</div>

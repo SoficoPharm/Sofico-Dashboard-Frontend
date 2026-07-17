@@ -1,57 +1,157 @@
+import { environment } from './../../../../../environments/environment';
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-
-interface Item {
-  id: string;
-  name: string;
-  logo: string;
-  sales: number;
-  target: number;
-  achievedPercentage: number;
-  category: string;
-}
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-items-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './items-list.component.html',
   styleUrls: ['./items-list.component.scss']
 })
 export class ItemsListComponent implements OnInit {
-  items: Item[] = [];
-  filteredItems: Item[] = [];
+  // ✅ استخدام environment بدلاً من hardcoded URL
+  apiUrl = environment.apiBaseUrl;
+  
+  items: any[] = [];
+  filteredItems: any[] = [];
   searchQuery = '';
+  
+  // ✅ Pagination
+  currentPage = 1;
+  pageSize = 100;
+  totalCount = 0;
+  totalPages = 0;
+  
+  // ✅ Loading & Error
+  isLoading = false;
+  errorMessage = '';
+
+  constructor(private http: HttpClient) {
+    console.log('========================================');
+    console.log('📦 Items List Component Initialized');
+    console.log('📡 API URL:', this.apiUrl);
+    console.log('🏭 Environment:', environment.production ? 'Production' : 'Development');
+    console.log('========================================');
+  }
 
   ngOnInit(): void {
     this.loadItems();
   }
 
+  /**
+   * ✅ تحميل كل الأصناف من API الجديد
+   * GET: /api/DataSync/items?page=1&pageSize=100
+   */
   loadItems(): void {
-    this.items = [
-      { id: '1', name: 'Product A', logo: '📦', sales: 1500000, target: 1800000, achievedPercentage: 83.3, category: 'Category A' },
-      { id: '2', name: 'Product B', logo: '📦', sales: 1200000, target: 1400000, achievedPercentage: 85.7, category: 'Category B' },
-      { id: '3', name: 'Product C', logo: '📦', sales: 980000, target: 1000000, achievedPercentage: 98.0, category: 'Category C' },
-      { id: '4', name: 'Product D', logo: '📦', sales: 750000, target: 900000, achievedPercentage: 83.3, category: 'Category A' },
-      { id: '5', name: 'Product E', logo: '📦', sales: 650000, target: 700000, achievedPercentage: 92.9, category: 'Category D' },
-      { id: '6', name: 'Product F', logo: '📦', sales: 550000, target: 600000, achievedPercentage: 91.7, category: 'Category B' },
-      { id: '7', name: 'Product G', logo: '📦', sales: 480000, target: 550000, achievedPercentage: 87.3, category: 'Category C' },
-      { id: '8', name: 'Product H', logo: '📦', sales: 420000, target: 500000, achievedPercentage: 84.0, category: 'Category A' },
-      { id: '9', name: 'Product I', logo: '📦', sales: 380000, target: 400000, achievedPercentage: 95.0, category: 'Category D' },
-      { id: '10', name: 'Product J', logo: '📦', sales: 320000, target: 350000, achievedPercentage: 91.4, category: 'Category B' }
-    ];
-    this.filteredItems = [...this.items];
+    console.log(`📦 Loading all items - Page ${this.currentPage}`);
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    const url = `${this.apiUrl}/items?page=${this.currentPage}&pageSize=${this.pageSize}`;
+    
+    this.http.get(url).subscribe({
+      next: (res: any) => {
+        if (!res || !res.success || !res.data) {
+          console.log("API returned no data", res);
+          this.errorMessage = 'No data returned from API';
+          this.isLoading = false;
+          return;
+        }
+        
+        // ✅ تحويل البيانات من format API الجديد
+        this.items = res.data.map((item: any) => ({
+          itemName: item.materialDescription || item.materialCode,
+          materialCode: item.materialCode,
+          value: item.totalSales || 0,
+          quantity: item.totalQuantitySold || 0
+        }));
+        
+        this.filteredItems = [...this.items];
+        this.totalCount = res.totalCount || 0;
+        this.totalPages = Math.ceil(this.totalCount / this.pageSize);
+        
+        console.log(`✅ Loaded ${this.items.length} items from total ${this.totalCount}`);
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error("❌ Error loading items:", err);
+        this.errorMessage = 'Failed to load items';
+        this.isLoading = false;
+      }
+    });
   }
 
-  onSearch(event: any): void {
-    this.searchQuery = event.target.value.toLowerCase();
-    this.filteredItems = this.items.filter(item =>
-      item.name.toLowerCase().includes(this.searchQuery) ||
-      item.category.toLowerCase().includes(this.searchQuery)
+  /**
+   * ✅ البحث في الأصناف
+   */
+  filterItems(): void {
+    const q = this.searchQuery.toLowerCase();
+    
+    if (!q) {
+      this.filteredItems = [...this.items];
+      return;
+    }
+    
+    this.filteredItems = this.items.filter(i =>
+      (i.itemName && i.itemName.toLowerCase().includes(q)) ||
+      (i.materialCode && i.materialCode.toLowerCase().includes(q))
     );
+    
+    console.log(`🔍 Search: "${q}" - Found ${this.filteredItems.length} items`);
   }
 
+  /**
+   * ✅ حساب النسبة المئوية
+   */
+  getPercentage(value: number) {
+    if (!this.items.length) return 0;
+    const max = Math.max(...this.items.map(i => i.value || 0));
+    return max ? ((value / max) * 100).toFixed(1) : 0;
+  }
+
+  /**
+   * ✅ تنسيق الأرقام
+   */
   formatNumber(value: number): string {
-    return value.toLocaleString('en-US');
+    return value.toLocaleString('en-US', { 
+      minimumFractionDigits: 2, 
+      maximumFractionDigits: 2 
+    });
+  }
+
+  /**
+   * ✅ الصفحة التالية
+   */
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadItems();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  /**
+   * ✅ الصفحة السابقة
+   */
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadItems();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  /**
+   * ✅ الذهاب لصفحة محددة
+   */
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.loadItems();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 }

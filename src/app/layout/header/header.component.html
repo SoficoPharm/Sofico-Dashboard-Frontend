@@ -1,30 +1,50 @@
 <header class="app-header">
   <div class="header-content">
-    <!-- Logo -->
     <div class="header-logo">
-      <img src="\logoSoficoPharam.png" alt="Sofico Pharm" class="logo-img">
-      <!-- <span class="logo-text">SOFICO</span> -->
+      <img src="/logoSoficoPharam.png" alt="Sofico Pharm" class="logo-img">
     </div>
 
-    <!-- Right Actions -->
+    <div class="header-filters">
+      <div class="monthly-filter">
+        <button type="button" class="nav-btn" (click)="goToPreviousMonth()" title="Previous Month">‹</button>
+
+        <select class="filter-select month-select" [(ngModel)]="selectedMonthKey">
+          <option *ngFor="let item of monthOptions" [value]="item.key">
+            {{ item.label }}
+          </option>
+        </select>
+
+        <button type="button" class="nav-btn" (click)="goToNextMonth()" title="Next Month">›</button>
+        <button type="button" class="search-btn" (click)="onMonthlySearch()">Search</button>
+        <button type="button" class="clear-btn" (click)="clearMonthly()">Clear</button>
+      </div>
+
+      <div class="range-filter">
+        <label class="date-field">
+          <span>From</span>
+          <input type="date" class="filter-date" [(ngModel)]="fromDate" title="From Date" />
+        </label>
+
+        <label class="date-field">
+          <span>To</span>
+          <input type="date" class="filter-date" [(ngModel)]="toDate" title="To Date" />
+        </label>
+
+        <button type="button" class="search-btn" (click)="onRangeSearch()">Search</button>
+        <button type="button" class="clear-btn" (click)="clearRange()">Clear</button>
+      </div>
+    </div>
+
     <div class="header-actions">
-      <!-- User Info -->
       <div class="user-info" *ngIf="currentUser">
-        <img src="\profile.jpg" alt="User" class="user-avatar">
+        <img src="/profile.jpg" alt="User" class="user-avatar">
         <div class="user-details">
-          <span class="user-name">{{ currentUser.name }}</span>
-          <div class="user-dropdown">
-            <button class="dropdown-toggle">▼</button>
-         <a (click)="onLogout()" class="LogOut">Logout</a>
-          </div>
+          <span class="user-name">{{ currentUser.fullName }}</span>
+          <span class="user-email" *ngIf="currentUser.email">{{ currentUser.email }}</span>
         </div>
       </div>
 
-      <!-- Language -->
-      <button class="header-btn language-btn" (click)="onLanguageChange()">
-         <img src="\us.png" alt="User" class="language">
-        <span>EN</span>
-      </button>
+      <button class="logout-btn" *ngIf="currentUser" (click)="onLogout()">Logout</button>
     </div>
   </div>
 </header>

@@ -1,52 +1,64 @@
 <div class="dashboard-container">
-  <!-- Sales Chart (Full Width) -->
   <div class="chart-section">
-    <app-sales-chart></app-sales-chart>
+    <app-sales-chart [dashboardFilter]="dashboardFilter"></app-sales-chart>
   </div>
 
-  <!-- Main Content Row -->
-  <div class="content-row">
-    <!-- Left: KPI Widgets -->
-    <div class="kpi-widgets-grid">
-      <div class="kpi-widget-item">
-        <app-sales-widget 
-          [selectedTimeframe]="globalTimeframe"
-          (timeframeChange)="onTimeframeChange($event)">
-        </app-sales-widget>
-      </div>
-
-      <div class="kpi-widget-item">
-        <app-statistics-widget 
-          [selectedTimeframe]="globalTimeframe"
-          (timeframeChange)="onTimeframeChange($event)">
-        </app-statistics-widget>
-      </div>
-
-      <div class="kpi-widget-item">
-        <app-break-even-widget 
-          [selectedTimeframe]="globalTimeframe"
-          (timeframeChange)="onTimeframeChange($event)">
-        </app-break-even-widget>
-      </div>
-
-      <div class="kpi-widget-item">
-        <app-ours-widget 
-          [selectedTimeframe]="globalTimeframe"
-          (timeframeChange)="onTimeframeChange($event)">
-        </app-ours-widget>
-      </div>
+  <div class="widgets-row">
+    <div class="widget-card">
+      <app-sales-widget
+        [selectedTimeframe]="globalTimeframe"
+        [dashboardFilter]="dashboardFilter"
+        (timeframeChange)="onTimeframeChange($event)">
+      </app-sales-widget>
     </div>
+
+    <div class="widget-card">
+      <app-statistics-widget
+        [selectedTimeframe]="globalTimeframe"
+        [dashboardFilter]="dashboardFilter"
+        (timeframeChange)="onTimeframeChange($event)">
+      </app-statistics-widget>
+    </div>
+
+     <app-top-vendors 
+     [dashboardFilter]="dashboardFilter"    
+     ></app-top-vendors>
+
+  </div>
+
+
+  <div class="middle-section">
+  <app-dchl-target-widget
+  [selectedTimeframe]="globalTimeframe"
+  [dashboardFilter]="dashboardFilter"
+  (timeframeChange)="onTimeframeChange($event)">
+</app-dchl-target-widget>
+
+    <app-ours-widget
+      [rows]="oursRows"
+      [loading]="oursLoading"
+      [selectedTimeframe]="globalTimeframe"
+      [dashboardFilter]="dashboardFilter"
+      (timeframeChange)="onTimeframeChangeOurs($event)">
+    </app-ours-widget>
+
     
-    <!-- Right: Info Box + Top Vendors/Items -->
-    <div class="sidebar-widgets">
-      <app-info-box></app-info-box>
-      <app-top-vendors></app-top-vendors>
+    <div class="widget-card">
+      <app-break-even-widget
+        [selectedTimeframe]="globalTimeframe"
+        (timeframeChange)="onTimeframeChange($event)">
+      </app-break-even-widget>
     </div>
+   
   </div>
-   <div class="KPI-Card">
-    <!-- KPI Cards (4 Cards) -->
-  <app-kpi-cards  [selectedTimeframe]="globalTimeframe"
-          (timeframeChange)="onTimeframeChange($event)"></app-kpi-cards>
 
-   </div>
+  <div class="bottom-section">
+    <app-kpi-cards
+      [selectedTimeframe]="globalTimeframe"
+      [dashboardFilter]="dashboardFilter"
+      (timeframeChange)="onTimeframeChange($event)">
+    </app-kpi-cards>
+
+    
+  </div>
 </div>

@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from './footer/footer.component';
+import { SyncBusService } from '../services/sync-bus';
 
 @Component({
   selector: 'app-layout',
@@ -11,11 +11,16 @@ import { FooterComponent } from './footer/footer.component';
   imports: [
     CommonModule,
     RouterOutlet,
-    HeaderComponent,
     SidebarComponent,
     FooterComponent
   ],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent {}
+export class LayoutComponent implements OnInit {
+  constructor(private syncBus: SyncBusService) {}
+
+  ngOnInit(): void {
+    this.syncBus.init(); // ✅ ONE TIME
+  }
+}

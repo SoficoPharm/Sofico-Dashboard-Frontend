@@ -12,8 +12,19 @@
     
   </div>
 
+  <!-- Last Sync Info -->
   <div class="sync-info">
-    <span class="sync-label">Last Sync:</span>
-    <span class="sync-value">{{ lastSync }}</span>
+    <div class="sync-row">
+      <span class="sync-label">Last Sync:</span>
+      <span class="sync-status" [class.connected]="signalRConnected">
+        {{ signalRConnected ? '🟢' : '🔴' }}
+      </span>
+    </div>
+    <div class="sync-value" [class.syncing]="lastSync === 'Waiting for sync...'">
+      {{ lastSync }}
+    </div>
   </div>
-</div>
+
+
+
+ 

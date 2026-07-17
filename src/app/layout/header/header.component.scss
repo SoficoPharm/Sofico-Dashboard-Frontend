@@ -1,117 +1,319 @@
+/* ========================================
+   🌍 Base
+======================================== */
+* {
+  box-sizing: border-box;
+}
+
 .app-header {
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 100;
+  overflow-x: hidden;
 
+  background: #ffffff;
+  border-bottom: 1px solid #edf1ef;
+  box-shadow: 0 1px 8px rgba(7, 41, 31, 0.06);
+
+  /* ========================================
+     Layout
+  ======================================== */
   .header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 24px;
-    height: 64px;
-    max-width: 1920px;
-    margin: 0 auto;
-  }
-
-  .header-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-left: 30px;
-
-    .logo-img {
-      height: 80px;
-      width: auto;
-    }
-
-    .logo-text {
-      font-size: 20px;
-      font-weight: 700;
-      color: #1e293b;
-      letter-spacing: 0.5px;
-    }
-  }
-
-  .header-actions {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto; // 👈 3 أجزاء
     align-items: center;
     gap: 16px;
 
-    .header-btn {
-      background: transparent;
-      border: none;
-      padding: 8px 12px;
-      cursor: pointer;
-      border-radius: 6px;
-      transition: background 0.2s;
+    min-height: 72px;
+    padding: 10px 28px; // 👈 وسعناها شوية
 
-      &:hover {
-        background: #f1f5f9;
-      }
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
 
-      .icon {
-        font-size: 18px;
-      }
-    }
+  /* ========================================
+     Logo
+  ======================================== */
+.header-logo {
+  .logo-img {
+height: 100px;
+max-height: 100px;;
+    width: auto;
+    object-fit: contain;
+  }
+}
 
-    .language-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 500;
-      color: #64748b;
+  /* ========================================
+     Filters (في النص)
+  ======================================== */
+  .header-filters {
+    display: flex;
+    justify-content: center; // 👈 في النص
+    align-items: center;
+    gap: 12px;
 
-      .flag {
-        font-size: 16px;
-      }
+    flex-wrap: wrap; // 👈 يمنع الكسر
+    min-width: 0;
+  }
+
+  .monthly-filter,
+  .range-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .date-field {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    span {
+      font-size: 12px;
+      font-weight: 900;
+      color: #06291f;
+      text-transform: uppercase;
     }
   }
 
-  .LogOut {
-     color: red;
+  /* ========================================
+     Controls
+  ======================================== */
+  .nav-btn,
+  .filter-select,
+  .filter-date,
+  .search-btn,
+  .clear-btn {
+    height: 34px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: Arial, sans-serif;
+    transition: 0.2s ease;
+  }
+
+  .nav-btn {
+    width: 34px;
+    flex: 0 0 34px;
+
+    border: 1px solid #dfe6e3;
+    background: #ffffff;
+    color: #6f827b;
+
+    cursor: pointer;
+    font-size: 20px;
+
+    &:hover {
+      color: #c97843;
+      border-color: #c97843;
+      background: #fff8f3;
+    }
+  }
+
+  .filter-select {
+    min-width: 150px;
+    padding: 0 12px;
+
+    border: 1px solid #dfe6e3;
+    background: #ffffff;
+    color: #263832;
+
+    outline: none;
+    cursor: pointer;
+
+    &:focus {
+      border-color: #c97843;
+      box-shadow: 0 0 0 3px rgba(201, 120, 67, 0.12);
+    }
+  }
+
+  .filter-date {
+    width: 135px;
+    padding: 0 10px;
+
+    border: 1px solid #dfe6e3;
+    background: #ffffff;
+    color: #263832;
+
+    outline: none;
+
+    &:focus {
+      border-color: #c97843;
+      box-shadow: 0 0 0 3px rgba(201, 120, 67, 0.12);
+    }
+  }
+
+  .search-btn,
+  .clear-btn {
+    padding: 0 14px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .search-btn {
+    border: none;
+    background: #c97843;
+    color: #ffffff;
+
+    box-shadow: 0 6px 14px rgba(201, 120, 67, 0.18);
+
+    &:hover {
+      background: #b96c3a;
+      transform: translateY(-1px);
+    }
+  }
+
+  .clear-btn {
+    background: #ffffff;
+    border: 1px solid #dfe6e3;
+    color: #6f827b;
+
+    &:hover {
+      color: #06291f;
+      background: #f7faf8;
+      border-color: #cfdad5;
+    }
+  }
+
+  /* ========================================
+     User (يمين)
+  ======================================== */
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    flex-shrink: 0; // 👈 يمنع القص
   }
 
   .user-info {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.2s;
-
-    &:hover {
-      background: #f1f5f9;
-    }
+    gap: 10px;
 
     .user-avatar {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
-      background: #94a3b8;
+      object-fit: cover;
+      border: 1px solid #f0e2d8;
+      background: #fff6ef;
     }
 
     .user-details {
       display: flex;
-      align-items: center;
-      gap: 8px;
+      flex-direction: column;
 
       .user-name {
-        font-size: 14px;
-        font-weight: 500;
-        color: #1e293b;
+        font-size: 13px;
+        font-weight: 900;
+        color: #06291f;
       }
 
-      .dropdown-toggle {
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        font-size: 10px;
-        color: #64748b;
+      .user-email {
+        margin-top: 3px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #7d8d86;
       }
+    }
+  }
+
+.logout-btn {
+  height: 34px;
+  padding: 0 16px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #c97843; // 👈 اللون الرئيسي
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  cursor: pointer;
+  white-space: nowrap;
+
+  box-shadow: 0 6px 14px rgba(201, 120, 67, 0.25);
+
+  &:hover {
+    background: #b96c3a;
+    transform: translateY(-1px);
+  }
+}
+}
+
+/* ========================================
+   📱 Responsive
+======================================== */
+
+@media (max-width: 1200px) {
+  .app-header {
+    .header-filters {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .app-header {
+    .header-content {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .header-logo {
+      margin: 0 auto;
+    }
+
+    .header-actions {
+      justify-content: center;
+    }
+
+    .header-filters {
+      width: 100%;
+    }
+
+    .monthly-filter,
+    .range-filter {
+      width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      padding: 10px;
+      border: 1px solid #edf1ef;
+      border-radius: 10px;
+      background: #f8faf9;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    .header-content {
+      padding: 10px 14px;
+    }
+
+    .filter-select,
+    .filter-date,
+    .search-btn,
+    .clear-btn,
+    .nav-btn {
+      width: 100%;
+      flex: 1 1 100%;
+    }
+
+    .header-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logout-btn {
+      width: 100%;
     }
   }
 }

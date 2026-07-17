@@ -1,43 +1,118 @@
 <div class="kpi-cards-container">
   <div class="kpi-card" *ngFor="let card of kpiCards">
-    <!-- Card Header -->
     <div class="card-header">
       <div class="card-title">
         <span class="card-icon">{{ card.icon }}</span>
         <h3>{{ card.title }}</h3>
       </div>
-     <!-- Timeframe Selector -->
-    <div class="timeframe-selector">
-      <button 
-        *ngFor="let tf of timeframes"
-        class="timeframe-btn"
-        [class.active]="selectedTimeframe === tf"
-        (click)="onTimeframeChange(tf)">
-        {{ tf }}
-      </button>
-    </div>
+
+      <div class="timeframe-selector">
+        <button
+          *ngFor="let tf of timeframes"
+          class="timeframe-btn"
+          [class.active]="selectedTimeframe === tf"
+          (click)="onTimeframeChange(tf)">
+          {{ tf }}
+        </button>
+      </div>
     </div>
 
-    <!-- Card Body -->
     <div class="card-body">
-      <ng-container *ngFor="let section of card.sections">
-        <!-- Section Title -->
-        <div class="section-title" *ngIf="section.title">
+      <!-- Big number for every card -->
+      <div class="main-metric" *ngIf="card.sections[0]?.items?.length">
+<span class="main-label">
+  {{ card.id === 'kpi' ? 'Total Client' : 'Total' }}
+</span>
+        <strong>
+          <ng-container *ngIf="!loading; else spinMain">
+            {{ formatNumber(card.sections[0].items[0].value) }}
+          </ng-container>
+          <ng-template #spinMain><span class="spinner"></span></ng-template>
+        </strong>
+      </div>
+
+      <ng-container *ngFor="let section of card.sections; let sIndex = index">
+        <div class="section-title" *ngIf="section.title && sIndex !== 0">
           {{ section.title }}
         </div>
 
-        <!-- Section Items -->
-        <div class="section-items">
-          <div 
-            class="kpi-item" 
-            *ngFor="let item of section.items"
-            [class.highlight]="item.highlight">
-            <span class="item-label">{{ item.label }}</span>
-            <span class="item-value">{{ formatNumber(item.value) }}</span>
-            <span class="item-percentage" *ngIf="item.percentage">{{ item.percentage }}</span>
+        <ng-container *ngIf="section.isDistribution; else normalSection">
+          <div class="payment-block" *ngFor="let item of section.distItems">
+            <div class="payment-header" [class.open]="item.expanded" (click)="toggleDistribution(item)">
+              <div class="payment-left">
+                <span class="payment-icon">{{ item.icon }}</span>
+                <span class="payment-label">{{ item.label }}</span>
+              </div>
+
+              <div class="payment-right">
+                <span class="dist-value">
+                  <ng-container *ngIf="!loading; else spinD">{{ formatNumber(item.value) }}</ng-container>
+                  <ng-template #spinD><span class="spinner"></span></ng-template>
+                </span>
+                <span class="chevron" [class.rotated]="item.expanded"></span>
+              </div>
+            </div>
+
+            <div class="sub-channels" [class.visible]="item.expanded">
+              <div class="sub-channel-item" *ngFor="let ch of item.subChannels">
+                <span class="channel-dot" [ngClass]="ch.colorClass"></span>
+                <span class="channel-label">{{ ch.label }}</span>
+
+                <div class="channel-right">
+                  <span class="channel-value">
+                    <ng-container *ngIf="!loading; else spinCh">{{ formatNumber(ch.value) }}</ng-container>
+                    <ng-template #spinCh><span class="spinner"></span></ng-template>
+                  </span>
+                  <span class="channel-pct" *ngIf="ch.percentage">{{ ch.percentage }}</span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+
+          <div class="channel-legend">
+            <span class="legend-item"><span class="legend-dot dot-retail"></span>Retail</span>
+            <span class="legend-item"><span class="legend-dot dot-hospital"></span>Hospital</span>
+            <span class="legend-item"><span class="legend-dot dot-cosmetics"></span>Cosmetics</span>
+            <span class="legend-item"><span class="legend-dot dot-bulk"></span>Bulk</span>
+            <span class="legend-item"><span class="legend-dot dot-tender"></span>Tender</span>
+            <span class="legend-item"><span class="legend-dot dot-export"></span>Export</span>
+            <span class="legend-item"><span class="legend-dot dot-clinic"></span>Clinic</span>
+          </div>
+        </ng-container>
+
+        <ng-template #normalSection>
+          <div class="section-items">
+            <div
+              class="kpi-item"
+              *ngFor="let item of (sIndex === 0 ? (section.items | slice:1) : section.items)">
+
+              <span class="item-label">
+                {{ item.label === 'All' && card.id === 'kpi' ? 'All Clients' : item.label }}
+              </span>
+
+              <span class="item-value">
+                <ng-container *ngIf="!loading; else spinTpl">{{ formatNumber(item.value) }}</ng-container>
+                <ng-template #spinTpl><span class="spinner"></span></ng-template>
+              </span>
+
+              <span class="item-percentage" *ngIf="item.percentage">
+                <ng-container *ngIf="!loading; else spinTpl2">{{ item.percentage }}</ng-container>
+                <ng-template #spinTpl2><span class="spinner"></span></ng-template>
+              </span>
+            </div>
+          </div>
+        </ng-template>
       </ng-container>
     </div>
+
+  
+
+
+
   </div>
+   <!-- INVENTORY -->
+    <div class="inventory-card-wrapper">
+      <app-inventory-card></app-inventory-card>
+    </div>
+
 </div>

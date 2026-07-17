@@ -1,81 +1,102 @@
 .vendors-page {
   padding: 24px;
+  background: #f5f8f7;
+  min-height: 100%;
+  box-sizing: border-box;
 
   .page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 32px;
+    gap: 16px;
+    margin-bottom: 24px;
 
     h1 {
-      font-size: 28px;
-      font-weight: 700;
-      color: #1e293b;
+      font-size: 24px;
+      font-weight: 900;
+      color: #111827;
       margin: 0;
     }
 
     .search-box {
       position: relative;
-      width: 300px;
+      width: 320px;
 
       .search-input {
         width: 100%;
-        padding: 10px 40px 10px 16px;
-        border: 2px solid #e2e8f0;
-        border-radius: 8px;
+        height: 42px;
+        padding: 0 42px 0 16px;
+        border: 1px solid #dfe6e3;
+        border-radius: 10px;
         font-size: 14px;
-        transition: all 0.2s;
+        font-weight: 700;
+        color: #111827;
+        background: #ffffff;
+        box-sizing: border-box;
 
         &:focus {
           outline: none;
-          border-color: #3b82f6;
+          border-color: #c97843;
+          box-shadow: 0 0 0 3px rgba(201, 120, 67, 0.12);
         }
       }
 
       .search-icon {
         position: absolute;
-        right: 12px;
+        right: 14px;
         top: 50%;
         transform: translateY(-50%);
-        font-size: 16px;
+        font-size: 15px;
+        color: #7d8d86;
       }
     }
   }
 
   .vendors-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
 
     .vendor-card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s;
+      background: #ffffff;
+      border: 1px solid #edf1ef;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 24px rgba(7, 41, 31, 0.07);
+      transition: 0.2s ease;
 
       &:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+        transform: translateY(-3px);
+        box-shadow: 0 14px 30px rgba(7, 41, 31, 0.1);
       }
 
       .card-header {
         display: flex;
         align-items: center;
-        gap: 12px;
-        margin-bottom: 16px;
+        gap: 10px;
+        margin-bottom: 14px;
         padding-bottom: 12px;
-        border-bottom: 2px solid #f0f0f0;
+        border-bottom: 1px solid #edf1ef;
 
         .vendor-logo {
-          font-size: 24px;
+          width: 34px;
+          height: 34px;
+          display: grid;
+          place-items: center;
+          border-radius: 9px;
+          background: #fff4ed;
+          font-size: 18px;
         }
 
         .vendor-name {
-          font-size: 16px;
-          font-weight: 600;
-          color: #00bcd4;
+          min-width: 0;
+          font-size: 15px;
+          font-weight: 900;
+          color: #111827;
           margin: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
 
@@ -85,17 +106,25 @@
         .stat-row {
           display: flex;
           justify-content: space-between;
-          padding: 8px 0;
+          gap: 12px;
+          padding: 9px 0;
+          border-bottom: 1px solid #f0f3f1;
+
+          &:last-child {
+            border-bottom: 0;
+          }
 
           .stat-label {
             font-size: 13px;
-            color: #666;
+            color: #6f827b;
+            font-weight: 800;
           }
 
           .stat-value {
             font-size: 14px;
-            font-weight: 600;
-            color: #333;
+            font-weight: 900;
+            color: #111827;
+            text-align: right;
 
             &.success {
               color: #10b981;
@@ -106,14 +135,15 @@
 
       .card-footer {
         .progress-bar {
-          height: 8px;
-          background: #f0f0f0;
-          border-radius: 4px;
+          height: 7px;
+          background: #edf1ef;
+          border-radius: 999px;
           overflow: hidden;
 
           .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #3b82f6, #10b981);
+            background: #c97843;
+            border-radius: inherit;
             transition: width 0.3s;
           }
         }
@@ -122,9 +152,29 @@
   }
 
   .no-results {
+    margin-top: 24px;
     text-align: center;
-    padding: 60px 20px;
-    color: #999;
-    font-size: 16px;
+    padding: 40px 20px;
+    color: #7d8d86;
+    font-size: 15px;
+    font-weight: 800;
+    background: #ffffff;
+    border: 1px solid #edf1ef;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .vendors-page {
+    padding: 16px;
+
+    .page-header {
+      flex-direction: column;
+      align-items: stretch;
+
+      .search-box {
+        width: 100%;
+      }
+    }
   }
 }

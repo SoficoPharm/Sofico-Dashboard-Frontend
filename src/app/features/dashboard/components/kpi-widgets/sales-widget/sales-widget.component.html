@@ -5,10 +5,9 @@
       <span class="icon">💰</span>
       <h3>Sales</h3>
     </div>
-    
-    <!-- Timeframe Selector -->
+
     <div class="timeframe-selector">
-      <button 
+      <button
         *ngFor="let tf of timeframes"
         class="timeframe-btn"
         [class.active]="selectedTimeframe === tf"
@@ -18,81 +17,158 @@
     </div>
   </div>
 
-  <!-- Main Sales Value -->
-  <div class="main-value">
-    <div class="invoice-count">{{ data?.invoiceCount || 0 }} / 0</div>
-    <div class="sales-amount">{{ formatNumber(data?.totalSales || 0) }}</div>
+  <!-- Gross Sales Card -->
+  <div class="gross-value">
+    <div class="value-label">Total Gross Sales</div>
+
+    <ng-container *ngIf="!loading; else grossSpinner">
+      <div class="gross-amount">{{ formatNumber(data?.grossSales || 0) }}</div>
+      <div class="invoice-note">Based on SubTotals</div>
+    </ng-container>
+
+    <ng-template #grossSpinner>
+      <div class="card-spinner"></div>
+    </ng-template>
   </div>
 
-  <!-- Sales Metrics -->
-  <div class="metrics-grid">
-    <!-- S.D -->
-    <div class="metric-item">
-      <span class="metric-label">S.D</span>
-      <span class="metric-value">{{ formatNumber(data?.sd || 0) }}</span>
-    </div>
+  <!-- Invoice Sales Card -->
+  <div class="invoice-value">
+    <div class="value-label">Total billing  Sales</div>
 
-    <!-- All Sales -->
+    <ng-container *ngIf="!loading; else invoiceSpinner">
+      <div class="invoice-amount">{{ formatNumber(data?.invoicetotalSales || 0) }}</div>
+      <div class="invoice-note">Based on Invoices</div>
+    </ng-container>
+
+    <ng-template #invoiceSpinner>
+      <div class="card-spinner"></div>
+    </ng-template>
+  </div>
+
+  <!-- Metrics Grid -->
+  <div class="metrics-grid" *ngIf="!loading">
     <div class="metric-item">
       <span class="metric-label">All Sales</span>
-      <span class="metric-value">{{ formatNumber(data?.allSales || 0) }}</span>
+      <span class="metric-value">{{ formatNumber(data?.invoicetotalSales || 0) }}</span>
     </div>
 
-    <!-- Total Discount -->
     <div class="metric-item">
-      <span class="metric-label">Tot Discount</span>
-      <span class="metric-value">
-        {{ formatNumber(data?.totalDiscount || 0) }} 
-        <span class="percentage">({{ data?.discountPercentage || 0 }}%)</span>
-      </span>
+      <span class="metric-label">Total Discount</span>
+      <span class="metric-value">{{ formatNumber(data?.totalDiscount || 0) }}</span>
     </div>
 
-    <!-- Return -->
     <div class="metric-item">
-      <span class="metric-label">Return</span>
+      <span class="metric-label">Vendor Discount</span>
+      <span class="metric-value">{{ formatNumber(data?.subTotal2 || 0) }}</span>
+    </div>
+
+    <div class="metric-item">
+      <span class="metric-label">Sofico Discount</span>
+      <span class="metric-value">{{ formatNumber(data?.subTotal4 || 0) }}</span>
+    </div>
+    <div class="metric-item">
+  <span class="metric-label">Deals</span>
+  <span class="metric-value">{{ formatNumber(data?.details || 0) }}</span>
+</div>
+
+<div class="metric-item">
+  <span class="metric-label">Cash Discount</span>
+  <span class="metric-value">{{ formatNumber(data?.cashDiscounts || 0) }}</span>
+</div>
+    <!-- Normal Return -->
+    <div class="metric-item">
+      <span class="metric-label">Normal Return</span>
       <span class="metric-value">{{ formatNumber(data?.return || 0) }}</span>
     </div>
 
-    <!-- Return % -->
     <div class="metric-item">
       <span class="metric-label">Return %</span>
-      <span class="metric-value">{{ data?.returnPercentage || 0 }}</span>
+      <span class="metric-value">{{ data?.returnPercentage || 0 }}%</span>
     </div>
 
-    <!-- Target -->
+    <!-- Expired Return -->
+    <div class="metric-item expired">
+      <span class="metric-label">Expired Return</span>
+      <span class="metric-value">{{ formatNumber(data?.returnExpired || 0) }}</span>
+    </div>
+
+    <div class="metric-item expired">
+      <span class="metric-label">Expired % </span>
+      <span class="metric-value">{{ data?.returnExpiredPctFromInvoice || 0 }}%</span>
+    </div>
+
+    <!-- Target Section -->
     <div class="metric-item highlight">
       <span class="metric-label">Target</span>
       <span class="metric-value">{{ formatNumber(data?.target || 0) }}</span>
     </div>
 
-    <!-- Achieved % -->
     <div class="metric-item highlight">
       <span class="metric-label">Achieved %</span>
-      <span class="metric-value">{{ data?.achievedPercentage || 0 }}</span>
+      <span class="metric-value">{{ data?.achievedPercentage || 0 }}%</span>
     </div>
 
-    <!-- Remaining -->
     <div class="metric-item">
       <span class="metric-label">Remaining</span>
       <span class="metric-value">{{ formatNumber(data?.remaining || 0) }}</span>
     </div>
 
-    <!-- Remaining % -->
     <div class="metric-item">
       <span class="metric-label">Remaining %</span>
-      <span class="metric-value">{{ data?.remainingPercentage || 0 }}</span>
+      <span class="metric-value">{{ data?.remainingPercentage || 0 }}%</span>
+    </div>
+  </div>
+
+  <!-- Sector Performance -->
+  <div class="sector-performance" *ngIf="!loading">
+    <div class="section-title">DCHL Target</div>
+
+    <div class="sector-row retail">
+      <div class="sector-top">
+        <div class="sector-name">Retail</div>
+        <div class="sector-target">{{ formatNumber(data?.targetRetail || 0) }}</div>
+      </div>
+      <div class="sector-achieved-line">
+        Achieved: {{ formatNumber(data?.achievedRetailValue || 0) }}
+      </div>
+      <div class="sector-bar">
+        <div class="sector-fill" [style.width.%]="data?.pactTargetRetail || 0"></div>
+      </div>
+      <div class="sector-bottom">
+        <span class="sector-achieved-percent">Achieved {{ data?.pactTargetRetail || 0 }}%</span>
+      </div>
     </div>
 
-    <!-- STP -->
-    <div class="metric-item">
-      <span class="metric-label">STP</span>
-      <span class="metric-value">{{ formatNumber(data?.stp || 0) }}</span>
+    <div class="sector-row hospital">
+      <div class="sector-top">
+        <div class="sector-name">Hospital</div>
+        <div class="sector-target">{{ formatNumber(data?.targetHospital || 0) }}</div>
+      </div>
+      <div class="sector-achieved-line">
+        Achieved: {{ formatNumber(data?.achievedHospitalValue || 0) }}
+      </div>
+      <div class="sector-bar">
+        <div class="sector-fill" [style.width.%]="data?.pactTargetHospital || 0"></div>
+      </div>
+      <div class="sector-bottom">
+        <span class="sector-achieved-percent">Achieved {{ data?.pactTargetHospital || 0 }}%</span>
+      </div>
     </div>
 
-    <!-- STP% -->
-    <div class="metric-item">
-      <span class="metric-label">STP%</span>
-      <span class="metric-value">{{ data?.stpPercentage || 0 }}</span>
+    <div class="sector-row cosmetics">
+      <div class="sector-top">
+        <div class="sector-name">Cosmetics</div>
+        <div class="sector-target">{{ formatNumber(data?.targetCosmetics || 0) }}</div>
+      </div>
+      <div class="sector-achieved-line">
+        Achieved: {{ formatNumber(data?.achievedCosmeticsValue || 0) }}
+      </div>
+      <div class="sector-bar">
+        <div class="sector-fill" [style.width.%]="data?.pactTargetCosmetics || 0"></div>
+      </div>
+      <div class="sector-bottom">
+        <span class="sector-achieved-percent">Achieved {{ data?.pactTargetCosmetics || 0 }}%</span>
+      </div>
     </div>
   </div>
 </div>
